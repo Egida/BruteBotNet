@@ -1,2 +1,3 @@
 # BruteBotNet
-BBN - An advanced network system for monitoring devices, controlling them, and monitoring the status using Python, PHP, and available servers.
+#### This is one of the projects related to cybersecurity and ethical penetration testing. Use it with caution and do not overuse it negatively. I completely disclaim responsibility for any misuse of these tools.
+_____________________________________________________________________________________
