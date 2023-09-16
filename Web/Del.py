@@ -40,9 +40,9 @@ def delete_file(file_path):
     """Delete a file."""
     try:
         os.remove(file_path)
-        print(f"Deleted file: {file_path}")
+        print(f"Deleted Report: {file_path}")
     except Exception as e:
-        print(f"Error deleting file {file_path}: {str(e)}")
+        print(f"Error deleting Report {file_path}: {str(e)}")
 
 def main():
     last_scan_time = time.time()
@@ -72,12 +72,19 @@ def main():
         if scan_count >= max_survival_scans:
             last_file_list = find_duplicate_text_files(directory_to_scan).get(list(file_hashes.keys())[0], [])
             if len(last_file_list) == 1:
-                print(f"Deleting last file: {last_file_list[0]}")
+                print(f"Deleting last Report: {last_file_list[0]}")
                 delete_file(last_file_list[0])
                 scan_count = 0
         
         # Sleep for a while before scanning again (adjust as needed)
         time.sleep(1)
-
+        os.system("clear")
+        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Delete Old Reports. | lolcat")
+        time.sleep(0.5)
+        os.system("clear")
+        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Delete Old Reports.. | lolcat")
+        time.sleep(0.5)
+        os.system("clear")
+        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Delete Old Reports... | lolcat")
 if __name__ == "__main__":
     main()

@@ -1,17 +1,17 @@
 import os
 import json
 import time
-from art import *
+import sys
+
+
 
 # Function to clear the terminal screen based on the operating system
 def clear_screen():
     if os.name == 'nt':  # Windows
         os.system('cls')
-        tprint("Network")
-
     else:  # Non-Windows (e.g., Linux, macOS)
         os.system('clear')
-
+        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Network | lolcat")
 # Directory where the files are located (replace with your directory path)
 directory_path = "."
 
@@ -72,7 +72,8 @@ while True:
         for data_row in extracted_data:
             print(data_row)
     else:
-        print("No Reports with the specified data structure found.")
+       print("--------------------------------------------------------------------------------")
+       print("No Reports with the specified data structure found.")
     
     # Wait for a specified interval before scanning again (e.g., 60 seconds)
     time.sleep(1)

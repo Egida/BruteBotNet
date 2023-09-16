@@ -2,17 +2,18 @@ import os
 import re
 import time
 import folium
-from art import *
 from geopy.geocoders import Nominatim
 
 # Function to clear the terminal screen based on the operating system
 def clear_screen():
     if os.name == 'nt':  # Windows
-        os.system('cls')
+     os.system('cls')
     else:  # Non-Windows (e.g., Linux, macOS)
-        os.system('clear')
+     os.system('clear')
+     os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf IP Map | lolcat")
 
-# Directory where the text files are located (replace with your directory path)
+        
+# Directory where the text files are located (replace with your directory pa
 directory_path = "."
 
 # Function to extract IP addresses from a text file
@@ -66,12 +67,11 @@ while True:
     ip_map = create_ip_map(extracted_ip_addresses)
 
     # Save the map to an HTML file (you can view it in a web browser)
-    os.system("del ip_location_map.html")
-    
+    os.system("rm -rf ip_location_map.html")
+    os.system("clear")    
     ip_map.save("ip_location_map.html") 
-    os.system('cls')
-    tprint("IP Map")
-
+    os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf IP Map | lolcat")
+    print("-------------------------------------------------------------------------------")
     print(f"Map saved as 'ip_location_map.html'")
     print("Loading >>>")
     # Wait for five seconds before updating the map again
