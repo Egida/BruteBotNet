@@ -1,1 +1,0 @@
-le_list = find_duplicate_text_files(directory_to_scan).get(list(file_hashes.keys())[0
