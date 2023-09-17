@@ -34,8 +34,8 @@ def check_website_status(ports):
         time.sleep(5)  # Sleep for 60 seconds before the next iteration
 
 def get_ports():
-    if os.path.exists("ports.io"):
-        with open("ports.io", "r") as file:
+    if os.path.exists("Ports.io"):
+        with open("Ports.io", "r") as file:
             lines = file.readlines()
 
         ports = []
