@@ -64,4 +64,4 @@ if __name__ == "__main__":
         os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/Reg.flf {target_count} | lolcat")
         
         # Sleep for a specified time before scanning again (e.g., 1 sec)
-        time.sleep(5)  # Sleep for 1 sec (adjust as needed)
+        time.sleep(1)  # Sleep for 1 sec (adjust as needed)
