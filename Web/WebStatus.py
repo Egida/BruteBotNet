@@ -49,7 +49,7 @@ def get_ports():
                 except ValueError:
                     print(f"Invalid port value: {parts[1].strip()}")
     else:
-        print("No 'ports.io' file found. Please enter 10 ports manually.")
+        print("No 'Ports.io' file found. Please enter 10 ports manually.")
         ports = []
         for i in range(1, 11):
             while True:
