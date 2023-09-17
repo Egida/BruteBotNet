@@ -14,19 +14,19 @@ def check_website_status(ports):
             try:
                 response = requests.get(website)
                 response.raise_for_status()  # Raise an exception for HTTP errors (4xx and 5xx)
-                status = "Connected"
+                status = colored("[+] Connected", 'green')
                 response_time = response.elapsed.total_seconds()
                 status_code = response.status_code
             except requests.exceptions.RequestException as e:
-                status = "Not Connected"
+                status = colored("[-] Not Connected", 'red')
                 response_time = None
                 status_code = None
                 error_message = str(e)
 
             print("=" * 40)
             print(f"Website: {website}")
-            print(colored(f'Status : [+] {status}', 'green'))
-            if status == "Connected":
+            print(f'Status: {status}')
+            if status == colored("[+] Connected", 'green'):
                 print(f"Response Time: {response_time} seconds")
             else:
                 print(f"Error Check WebSite!")
@@ -34,6 +34,7 @@ def check_website_status(ports):
 
         time.sleep(5)  # Sleep for 60 seconds before the next iteration
         os.system("clear")
+
 def get_ports():
     if os.path.exists("Ports.io"):
         with open("Ports.io", "r") as file:
