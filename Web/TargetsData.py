@@ -27,24 +27,23 @@ def copy_unique_text_files(source_dir, target_dir):
     source_file_count = 0
     target_file_count = 0
 
-    # Scan source directory for text files
-    for root, _, files in os.walk(source_dir):
-        for file_name in files:
-            file_path = os.path.join(root, file_name)
+    # Scan source directory for text files (only in the top-level directory)
+    for file_name in os.listdir(source_dir):
+        file_path = os.path.join(source_dir, file_name)
 
-            # Check if the file is a text file (you can add more extensions if needed)
-            if file_name.endswith((".txt", ".csv")):
-                source_file_count += 1
+        # Check if the file is a text file (you can add more extensions if needed)
+        if file_name.endswith((".txt", ".csv")):
+            source_file_count += 1
 
-                # Check if the file content is already copied
-                if not any(are_files_identical(file_path, copied_file) for copied_file in copied_files):
-                    # Copy the file to the target directory
-                    target_file_path = os.path.join(target_dir, file_name)
-                    shutil.copy2(file_path, target_file_path)
-                    target_file_count += 1
+            # Check if the file content is already copied
+            if not any(are_files_identical(file_path, copied_file) for copied_file in copied_files):
+                # Copy the file to the target directory
+                target_file_path = os.path.join(target_dir, file_name)
+                shutil.copy2(file_path, target_file_path)
+                target_file_count += 1
 
-                    # Add the copied file to the list
-                    copied_files.append(target_file_path)
+                # Add the copied file to the list
+                copied_files.append(target_file_path)
 
     return source_file_count, target_file_count
 
