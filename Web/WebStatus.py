@@ -1,6 +1,7 @@
 import requests
 import os
 import time
+from termcolor import colored
 
 def check_website_status(ports):
     while True:
@@ -22,17 +23,17 @@ def check_website_status(ports):
                 status_code = None
                 error_message = str(e)
 
+            print("=" * 40)
             print(f"Website: {website}")
-            print(f"Status: {status}")
+            print(colored(f'Status : [+] {status}', 'green'))
             if status == "Connected":
                 print(f"Response Time: {response_time} seconds")
-                print(f"Status Code: {status_code}")
             else:
                 print(f"Error Check WebSite!")
             print("=" * 40)
 
         time.sleep(5)  # Sleep for 60 seconds before the next iteration
-
+        os.system("clear")
 def get_ports():
     if os.path.exists("Ports.io"):
         with open("Ports.io", "r") as file:
