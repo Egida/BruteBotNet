@@ -3,14 +3,12 @@ import filecmp
 import hashlib
 import time
 
-# Define the directory to scan
-directory_to_scan = "."  # Change this to your desired directory
-scan_interval = 1  # Adjust as needed (in seconds)
-max_survival_scans = 60  # Adjust as needed
+directory_to_scan = "."  
+scan_interval = 1  
+max_survival_scans = 60
 
 def is_text_file(filename):
-    # Check if a file has a text file extension.
-    text_extensions = {".txt", ".csv", ".log", ".xml"}  # Add more extensions as needed
+    text_extensions = {".txt", ".csv", ".log", ".xml"} 
     _, file_extension = os.path.splitext(filename)
     return file_extension.lower() in text_extensions
 
@@ -23,7 +21,6 @@ def get_file_hash(filename):
     return hash_md5.hexdigest()
 
 def find_duplicate_text_files(directory):
-    # Find duplicate text files in a directory.
     file_hashes = {}
     for root, dirs, files in os.walk(directory):
         for filename in files:
@@ -37,7 +34,6 @@ def find_duplicate_text_files(directory):
     return file_hashes
 
 def delete_file(file_path):
-    # Delete a file.
     try:
         os.remove(file_path)
         print(f"Deleted Report: {file_path}")
@@ -47,7 +43,6 @@ def delete_file(file_path):
 def main():
     while True:
         try:
-            # Your script's logic here
             last_scan_time = time.time()
             scan_count = 0
             
