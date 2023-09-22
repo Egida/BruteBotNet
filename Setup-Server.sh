@@ -39,5 +39,6 @@ echo Running Service...
 sleep 1
 clear
 gnome-terminal -- python3 Run-Server.py
+gnome-terminal -- python3 Setup-SSH-Keygen.py
 exit
 
