@@ -7,13 +7,12 @@ def check_website_status(ports):
     while True:
         os.system("clear")
         os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
-        # Create website URLs using the extracted or entered ports
         websites = [f"http://bore.pub:{port}/WebStatus" for port in ports]
 
         for website in websites:
             try:
                 response = requests.get(website)
-                response.raise_for_status()  # Raise an exception for HTTP errors (4xx and 5xx)
+                response.raise_for_status() 
                 status = colored("[+] Connected", 'green')
                 response_time = response.elapsed.total_seconds()
                 status_code = response.status_code
@@ -32,7 +31,7 @@ def check_website_status(ports):
                 print(f"Error Check WebSite!")
             print("=" * 40)
 
-        time.sleep(5)  # Sleep for 60 seconds before the next iteration
+        time.sleep(5)  
         os.system("clear")
 
 def get_ports():
