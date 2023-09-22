@@ -22,16 +22,21 @@ if os.path.exists("Ports.io"):
             except ValueError:
                 print(f"Invalid port value: {parts[1].strip()}")
 else:
-    print("No 'ports.io' file found. Please enter 10 ports manually.")
+    print("No 'Ports.io' file found. Please enter 10 ports manually.")
     ports = []
     for i in range(1, 11):
         while True:
             try:
-                port = int(input(f"Your Server Port {i} : "))
+                port = int(input(f"Your Server Port {i}: "))
                 ports.append(port)
                 break
             except ValueError:
                 print("Invalid input. Please enter a valid integer.")
+    
+    # Write the entered ports to the 'Ports.io' file
+    with open("Ports.io", "w") as file:
+        for i, port in enumerate(ports, start=1):
+            file.write(f"Port{i}={port}\n")
 
 print("This Servers With Ports:")
 print("   ")
