@@ -8,6 +8,7 @@ clear
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
 pip install folium geopy psutil wmi Dispatch ping3 termcolor
 wget https://github.com/ekzhang/bore/releases/download/v0.5.0/bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz
+wget https://storage.googleapis.com/serveo/download/2018-05-08/serveo-linux-amd64 ;chmod +x serveo-linux-amd64 ;mv serveo-linux-amd64 serveo
 clear
 sleep 1
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
@@ -16,6 +17,7 @@ tar xzvf bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz
 rm -rf figlet-fonts bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz
 cd ..
 mv SetupFile/bore .
+mv SetupFile/serveo .
 rm -rf SetupFile
 wget -P ~/.local/share/fonts/figlet-fonts/ https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf 
 cd ~/.local/share/fonts/figlet-fonts/
