@@ -7,7 +7,6 @@ os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup... | lolc
 
 Loc = input("LocalHost Port : ")
 
-# Check if a text file with ports exists
 if os.path.exists("Ports.io"):
     with open("Ports.io", "r") as file:
         lines = file.readlines()
