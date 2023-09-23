@@ -90,12 +90,12 @@ while True:
         ports = get_ports_from_file("Ports.io")
         check_bore_status(ports)
     elif SERVICE == "2":
-        saved_domain = get_domain_from_file("domain.io")
+        saved_domain = get_domain_from_file("Domain.io")
         if saved_domain:
             DOMAIN = saved_domain
         else:
             DOMAIN = input("Enter Your Domain: ")
-            save_domain_to_file(DOMAIN, "domain.io")
+            save_domain_to_file(DOMAIN, "Domain.io")
         check_serveo_domain_status(DOMAIN)
     else:
         print("Invalid choice. Please choose 1 or 2.")
