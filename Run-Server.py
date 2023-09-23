@@ -72,7 +72,7 @@ elif SERVICE == "2":
      NOT = colored("This setting works only once, and if the keys are pre-set, it does not work automatically every time you run a script.",'green')
      print(NOT)
      print("=" * 40)
-     os.system("gnome-terminal -- python3 Setup-SSH-Keygen.py")
+     os.system("python3 Setup-SSH-Keygen.py")
     else:
      print
 
