@@ -1,8 +1,7 @@
-import os
 import time
 from termcolor import colored
 import sys
-
+import os
 def safe_input(prompt):
     try:
         return input(prompt)
@@ -21,7 +20,7 @@ SERVICE = safe_input("Choose (1, 2, or 3): ")
 
 ports = []
 
-if SERVICE == "1" or SERVICE == "2":
+if SERVICE == "1":
     if os.path.exists("Ports.io"):
         with open("Ports.io", "r") as file:
             lines = file.readlines()
@@ -44,10 +43,14 @@ if SERVICE == "1" or SERVICE == "2":
                     break
                 except ValueError:
                     print("Invalid input. Please enter a valid integer.")
-        
+
         with open("Ports.io", "w") as file:
             for i, port in enumerate(ports, start=1):
                 file.write(f"Port{i}={port}\n")
+elif SERVICE == "2":
+    portse = input("Input TCP Port (One Port only) : ")
+
+
 if SERVICE != "3":
   print("This Servers With Ports:")
   print("   ")
@@ -56,8 +59,7 @@ if SERVICE == "1":
     for port in ports:
         print(f"http://bore.pub:{port}")
 elif SERVICE == "2":
-    for port in ports:
-        print(f"https://serveo.net:{port}")
+        print(f"https://serveo.net:{portse}")
 elif SERVICE == "3":
     DOM = safe_input("Enter Your Domain: ")
     print(f"https://{DOM}.serveo.net")
@@ -68,9 +70,9 @@ elif SERVICE == "3":
 
     try:
       with open(file1_path, 'r'):
-        pass  
+        pass
       with open(file2_path, 'r'):
-        pass  
+        pass
     except FileNotFoundError:
      print("=" * 40)
      NOT = colored("This setting works only once, and if the keys are pre-set, it does not work automatically every time you run a script.",'green')
@@ -80,7 +82,7 @@ elif SERVICE == "3":
     else:
      print
 
-    
+
 else:
     print("Invalid choice. The script will be closed and must be restarted.")
     sys.exit()
@@ -122,15 +124,8 @@ if SERVICE == "1":
         command += f" & gnome-terminal -- ./bore local {Loc} --to bore.pub -p {port}"
     os.system(command)
 elif SERVICE == "2":
-    while len(ports) < 10:
-        ports.append(0)
-
-    num_ports_to_use = min(len(ports), 10)
-    ports_to_use = ports[:num_ports_to_use]
-
     command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
-    for i, port in enumerate(ports_to_use, start=1):
-        command += f" & gnome-terminal -- ssh -R {port}:localhost:{Loc} serveo.net"
+    command += f" & gnome-terminal -- ssh -R {portse}:localhost:{Loc} serveo.net"
     os.system(command)
 elif SERVICE == "3":
     command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
@@ -138,3 +133,23 @@ elif SERVICE == "3":
     os.system(command)
 else:
     print("Invalid choice. The script will be closed and must be restarted.")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
