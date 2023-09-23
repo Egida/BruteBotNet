@@ -117,7 +117,7 @@ if SERVICE == "1":
     num_ports_to_use = min(len(ports), 10)
     ports_to_use = ports[:num_ports_to_use]
 
-    command = f"php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
+    command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
     for i, port in enumerate(ports_to_use, start=1):
         command += f" & gnome-terminal -- ./bore local {Loc} --to bore.pub -p {port}"
     os.system(command)
@@ -128,12 +128,12 @@ elif SERVICE == "2":
     num_ports_to_use = min(len(ports), 10)
     ports_to_use = ports[:num_ports_to_use]
 
-    command = f"php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
+    command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
     for i, port in enumerate(ports_to_use, start=1):
         command += f" & gnome-terminal -- ssh -R {port}:localhost:{Loc} serveo.net"
     os.system(command)
 elif SERVICE == "3":
-    command = f"php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
+    command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
     command += f" & gnome-terminal -- ssh -R {DOM}:80:localhost:{Loc} serveo.net"
     os.system(command)
 else:
