@@ -61,6 +61,22 @@ elif SERVICE == "2":
 elif SERVICE == "3":
     DOM = safe_input("Enter Your Domain: ")
     print(f"https://{DOM}.serveo.net")
+    file1_path = "~/.ssh/id_rsa"
+    file2_path = "~/.ssh/id_rsa.pub"
+    file1_path = os.path.expanduser(file1_path)
+    file2_path = os.path.expanduser(file2_path)
+
+    try:
+      with open(file1_path, 'r'):
+        pass  
+      with open(file2_path, 'r'):
+        pass  
+    except FileNotFoundError:
+     os.system("python3 Setup-SSH-Keygen.py")
+    else:
+     print
+
+    
 else:
     print("Invalid choice. The script will be closed and must be restarted.")
     sys.exit()
