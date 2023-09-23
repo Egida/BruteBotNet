@@ -48,9 +48,9 @@ if SERVICE == "1" or SERVICE == "2":
         with open("Ports.io", "w") as file:
             for i, port in enumerate(ports, start=1):
                 file.write(f"Port{i}={port}\n")
-
-print("This Servers With Ports:")
-print("   ")
+if SERVICE != "3":
+  print("This Servers With Ports:")
+  print("   ")
 
 if SERVICE == "1":
     for port in ports:
