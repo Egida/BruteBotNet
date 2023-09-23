@@ -122,6 +122,17 @@ def get_ports_from_file(file_path):
         print(f"File not found: {file_path}")
         return []
 
+def get_domain_from_file(file_path):
+    try:
+        with open(file_path, "r") as file:
+            return file.readline().strip()
+    except FileNotFoundError:
+        return None
+
+def save_domain_to_file(domain, file_path):
+    with open(file_path, "w") as file:
+        file.write(domain)
+
 print("Choose your connectivity service provider:")
 print("1 - BORE")
 print("2 - SERVEO")
@@ -137,7 +148,12 @@ while True:
         ports = get_ports_from_file("Ports.io")
         check_serveo_status(ports)
     elif SERVICE == "3":
-        DOMAIN = input("Enter Your Domain: ")
+        saved_domain = get_domain_from_file("domain.io")
+        if saved_domain:
+            DOMAIN = saved_domain
+        else:
+            DOMAIN = input("Enter Your Domain: ")
+            save_domain_to_file(DOMAIN, "domain.io")
         check_serveo_domain_status(DOMAIN)
     else:
         print("Invalid choice. Please choose 1, 2, or 3.")
