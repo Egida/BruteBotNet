@@ -15,92 +15,38 @@ def check_bore_status(ports):
         os.system("clear")
         os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
         websites = [f"http://bore.pub:{port}/WebStatus" for port in ports]
-
-        for website in websites:
-            try:
-                response = requests.get(website)
-                response.raise_for_status() 
-                status = colored("[+] Connected", 'green')
-                response_time = response.elapsed.total_seconds()
-                status_code = response.status_code
-            except requests.exceptions.RequestException as e:
-                status = colored("[-] Not Connected", 'red')
-                response_time = None
-                status_code = None
-                error_message = str(e)
-
-            print("=" * 40)
-            print(f"Website: {website}")
-            print(f'Status: {status}')
-            if status == colored("[+] Connected", 'green'):
-                print(f"Response Time: {response_time} seconds")
-            else:
-                print(f"Error Check WebSite!")
-            print("=" * 40)
-
-        time.sleep(5)  
-        os.system("clear")
-
-def check_serveo_status(port):
-
-    while True:
-        os.system("clear")
-        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
-        website = f"https://serveo.net:{port}/WebStatus"
-
-        try:
-            response = requests.get(website)
-            response.raise_for_status() 
-            status = colored("[+] Connected", 'green')
-            response_time = response.elapsed.total_seconds()
-            status_code = response.status_code
-        except requests.exceptions.RequestException as e:
-            status = colored("[-] Not Connected", 'red')
-            response_time = None
-            status_code = None
-            error_message = str(e)
-
-        print("=" * 40)
-        print(f"Website: {website}")
-        print(f'Status: {status}')
-        if status == colored("[+] Connected", 'green'):
-            print(f"Response Time: {response_time} seconds")
-        else:
-            print(f"Error Check WebSite!")
-        print("=" * 40)
-
-        time.sleep(5)  
-        os.system("clear")
+        check_websites(websites)
 
 def check_serveo_domain_status(domain):
     while True:
         os.system("clear")
         os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
         website = f"https://{domain}.serveo.net/WebStatus"
+        check_websites([website])
 
-        try:
-            response = requests.get(website)
-            response.raise_for_status() 
-            status = colored("[+] Connected", 'green')
-            response_time = response.elapsed.total_seconds()
-            status_code = response.status_code
-        except requests.exceptions.RequestException as e:
-            status = colored("[-] Not Connected", 'red')
-            response_time = None
-            status_code = None
-            error_message = str(e)
+def check_websites(websites):
+    while True:
+        for website in websites:
+            try:
+                response = requests.get(website)
+                response.raise_for_status()
+                status = "[+] Connected"
+                response_time = response.elapsed.total_seconds()
+            except requests.exceptions.RequestException as e:
+                status = "[-] Not Connected"
+                response_time = None
 
-        print("=" * 40)
-        print(f"Website: {website}")
-        print(f'Status: {status}')
-        if status == colored("[+] Connected", 'green'):
-            print(f"Response Time: {response_time} seconds")
-        else:
-            print(f"Error Check WebSite!")
-        print("=" * 40)
+            os.system("clear")
+            print("=" * 40)
+            print(f"Website: {website}")
+            print(f'Status: {status}')
+            if status == "[+] Connected":
+                print(f"Response Time: {response_time} seconds")
+            else:
+                print("Error Check WebSite!")
+            print("=" * 40)
 
-        time.sleep(5)  
-        os.system("clear")
+            time.sleep(5)
 
 def get_ports_from_file(file_path):
     try:
@@ -135,19 +81,15 @@ def save_domain_to_file(domain, file_path):
 
 print("Choose your connectivity service provider:")
 print("1 - BORE")
-print("2 - SERVEO")
-print("3 - SERVEO Domain")
+print("2 - SERVEO Domain")
 
 while True:
-    SERVICE = safe_input("Choose (1, 2, or 3): ")
-    
+    SERVICE = safe_input("Choose (1 or 2): ")
+
     if SERVICE == "1":
         ports = get_ports_from_file("Ports.io")
         check_bore_status(ports)
     elif SERVICE == "2":
-        port = input("Input TCP Port (One Port only) : ")
-        check_serveo_status(port)
-    elif SERVICE == "3":
         saved_domain = get_domain_from_file("domain.io")
         if saved_domain:
             DOMAIN = saved_domain
@@ -156,4 +98,4 @@ while True:
             save_domain_to_file(DOMAIN, "domain.io")
         check_serveo_domain_status(DOMAIN)
     else:
-        print("Invalid choice. Please choose 1, 2, or 3.")
+        print("Invalid choice. Please choose 1 or 2.")
