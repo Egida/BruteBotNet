@@ -72,7 +72,11 @@ elif SERVICE == "3":
       with open(file2_path, 'r'):
         pass  
     except FileNotFoundError:
-     os.system("python3 Setup-SSH-Keygen.py")
+     print("=" * 40)
+     NOT = colored("This setting works only once, and if the keys are pre-set, it does not work automatically every time you run a script.",'green')
+     print(NOT)
+     print("=" * 40)
+     os.system("gnome-terminal -- python3 Setup-SSH-Keygen.py")
     else:
      print
 
