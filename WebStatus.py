@@ -31,10 +31,10 @@ def check_websites(websites):
             try:
                 response = requests.get(website)
                 response.raise_for_status()
-                status = "[+] Connected"
+                status = colored("[+] Connected", 'green')
                 response_time = response.elapsed.total_seconds()
             except requests.exceptions.RequestException as e:
-                status = "[-] Not Connected"
+                status = colored("[-] Not Connected", 'red')
                 response_time = None
 
             os.system("clear")
