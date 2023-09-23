@@ -2,7 +2,8 @@ import requests
 import os
 import time
 from termcolor import colored
-
+os.system("clear")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
 def safe_input(prompt):
     try:
         return input(prompt)
@@ -13,14 +14,14 @@ def safe_input(prompt):
 def check_bore_status(ports):
     while True:
         os.system("clear")
-        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
+        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
         websites = [f"http://bore.pub:{port}/WebStatus" for port in ports]
         check_websites(websites)
 
 def check_serveo_domain_status(domain):
     while True:
         os.system("clear")
-        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
+        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
         website = f"https://{domain}.serveo.net/WebStatus"
         check_websites([website])
 
@@ -37,6 +38,7 @@ def check_websites(websites):
                 response_time = None
 
             os.system("clear")
+            os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
             print("=" * 40)
             print(f"Website: {website}")
             print(f'Status: {status}')
