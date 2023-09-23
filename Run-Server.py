@@ -14,9 +14,8 @@ os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup... | lolc
 Loc = safe_input("LocalHost Port : ")
 print("Choose your connectivity service provider:")
 print("1 - BORE")
-print("2 - SERVEO")
-print("3 - SERVEO Domain")
-SERVICE = safe_input("Choose (1, 2, or 3): ")
+print("2 - SERVEO Domain")
+SERVICE = safe_input("Choose (1 or 2): ")
 
 ports = []
 
@@ -47,11 +46,8 @@ if SERVICE == "1":
         with open("Ports.io", "w") as file:
             for i, port in enumerate(ports, start=1):
                 file.write(f"Port{i}={port}\n")
-elif SERVICE == "2":
-    portse = input("Input TCP Port (One Port only) : ")
 
-
-if SERVICE != "3":
+if SERVICE != "2":
   print("This Servers With Ports:")
   print("   ")
 
@@ -59,8 +55,6 @@ if SERVICE == "1":
     for port in ports:
         print(f"http://bore.pub:{port}")
 elif SERVICE == "2":
-        print(f"https://serveo.net:{portse}")
-elif SERVICE == "3":
     DOM = safe_input("Enter Your Domain: ")
     print(f"https://{DOM}.serveo.net")
     file1_path = "~/.ssh/id_rsa"
@@ -124,10 +118,6 @@ if SERVICE == "1":
         command += f" & gnome-terminal -- ./bore local {Loc} --to bore.pub -p {port}"
     os.system(command)
 elif SERVICE == "2":
-    command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
-    command += f" & gnome-terminal -- ssh -R {portse}:localhost:{Loc} serveo.net"
-    os.system(command)
-elif SERVICE == "3":
     command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py"
     command += f" & gnome-terminal -- ssh -R {DOM}:80:localhost:{Loc} serveo.net"
     os.system(command)
