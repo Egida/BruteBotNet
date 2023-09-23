@@ -19,9 +19,7 @@ cd ..
 mv SetupFile/bore .
 mv SetupFile/serveo .
 rm -rf SetupFile
-wget -P ~/.local/share/fonts/figlet-fonts/ https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf 
-cd ~/.local/share/fonts/figlet-fonts/
-mv 'ANSI Regular.flf' Reg.flf
+wget -O ~/.local/share/fonts/figlet-fonts/Reg.flf https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf
 clear
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installed! | lolcat
 sleep 2
