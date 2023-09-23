@@ -2,8 +2,10 @@ import requests
 import os
 import time
 from termcolor import colored
+
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
+
 def safe_input(prompt):
     try:
         return input(prompt)
@@ -42,13 +44,13 @@ def check_websites(websites):
             print("=" * 40)
             print(f"Website: {website}")
             print(f'Status: {status}')
-            if status == "[+] Connected":
-                print(f"Response Time: {response_time} seconds")
-            else:
+            if status == colored("[-] Not Connected", 'red'):
                 print("Error Check WebSite!")
+            elif response_time is not None:
+                print(f"Response Time: {response_time:.5f} seconds")
             print("=" * 40)
 
-            time.sleep(5)
+        time.sleep(5)
 
 def get_ports_from_file(file_path):
     try:
@@ -81,11 +83,11 @@ def save_domain_to_file(domain, file_path):
     with open(file_path, "w") as file:
         file.write(domain)
 
-print("Choose your connectivity service provider:")
-print("1 - BORE")
-print("2 - SERVEO Domain")
-
 while True:
+    print("Choose your connectivity service provider:")
+    print("1 - BORE")
+    print("2 - SERVEO Domain")
+
     SERVICE = safe_input("Choose (1 or 2): ")
 
     if SERVICE == "1":
