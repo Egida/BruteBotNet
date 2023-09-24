@@ -2,6 +2,7 @@ import time
 from termcolor import colored
 import sys
 import os
+
 def safe_input(prompt):
     try:
         return input(prompt)
@@ -11,7 +12,19 @@ def safe_input(prompt):
 
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup... | lolcat")
-Loc = safe_input("LocalHost Port : ")
+
+# Check if the file 'local_port.txt' exists
+local_port_file = "local_port.txt"
+if os.path.exists(local_port_file):
+    # If it exists, read the local port from it
+    with open(local_port_file, "r") as file:
+        Loc = file.read().strip()
+else:
+    # If it doesn't exist, ask the user to enter the local port and save it in the file
+    Loc = safe_input("LocalHost Port : ")
+    with open(local_port_file, "w") as file:
+        file.write(Loc)
+
 print("Choose your connectivity service provider:")
 print("1 - BORE")
 print("2 - SERVEO Domain")
@@ -48,8 +61,8 @@ if SERVICE == "1":
                 file.write(f"Port{i}={port}\n")
 
 if SERVICE != "2":
-  print("This Servers With Ports:")
-  print("   ")
+    print("This Servers With Ports:")
+    print("   ")
 
 if SERVICE == "1":
     for port in ports:
@@ -63,20 +76,18 @@ elif SERVICE == "2":
     file2_path = os.path.expanduser(file2_path)
 
     try:
-      with open(file1_path, 'r'):
-        pass
-      with open(file2_path, 'r'):
-        pass
+        with open(file1_path, 'r'):
+            pass
+        with open(file2_path, 'r'):
+            pass
     except FileNotFoundError:
-     print("=" * 40)
-     NOT = colored("This setting works only once, and if the keys are pre-set, it does not work automatically every time you run a script.",'green')
-     print(NOT)
-     print("=" * 40)
-     os.system("python3 Setup-SSH-Keygen.py")
+        print("=" * 40)
+        NOT = colored("This setting works only once, and if the keys are pre-set, it does not work automatically every time you run a script.",'green')
+        print(NOT)
+        print("=" * 40)
+        os.system("python3 Setup-SSH-Keygen.py")
     else:
-     print
-
-
+        print
 else:
     print("Invalid choice. The script will be closed and must be restarted.")
     sys.exit()
@@ -123,23 +134,3 @@ elif SERVICE == "2":
     os.system(command)
 else:
     print("Invalid choice. The script will be closed and must be restarted.")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
