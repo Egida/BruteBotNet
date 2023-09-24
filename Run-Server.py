@@ -10,11 +10,15 @@ def safe_input(prompt):
         print("Invalid input. Please enter valid characters.")
         return safe_input(prompt)
 
+# Delete the 'LPort.io' file before starting
+if os.path.exists('LPort.io'):
+    os.remove('LPort.io')
+
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup... | lolcat")
 
-# Check if the file 'local_port.txt' exists
-local_port_file = "local_port.txt"
+# Check if the file 'LPort.io' exists
+local_port_file = "LPort.io"
 if os.path.exists(local_port_file):
     # If it exists, read the local port from it
     with open(local_port_file, "r") as file:
