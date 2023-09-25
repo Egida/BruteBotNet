@@ -25,6 +25,7 @@ def send_data():
         os.remove('Data.io')
     while True:
         data = input("PowerShell >>> ")
+        print("")
 
         if data.lower() == 'exit':
             break
