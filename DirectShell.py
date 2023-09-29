@@ -4,7 +4,7 @@ import time
 from termcolor import *
 # Function to read the port from the LPort.io file
 os.system("clear")
-os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf PowerShell | lolcat")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf GlobalPShell | lolcat")
 print("=" * 40)
 def read_port_from_file():
     if os.path.exists('LPort.io'):
