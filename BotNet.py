@@ -295,4 +295,4 @@ while True:
 
     except Exception as e:
         print(f"Error: {str(e)}")
-        time.sleep(0)
+        time.sleep(1)
