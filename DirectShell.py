@@ -5,7 +5,7 @@ from termcolor import *
 # Function to read the port from the LPort.io file
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Global | lolcat")
-os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.fl  PShell | lolcat")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf  PShell | lolcat")
 print("=" * 40)
 def read_port_from_file():
     if os.path.exists('LPort.io'):
