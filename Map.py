@@ -85,4 +85,6 @@ while True:
 
     print()
     print(f"Globe updated and saved as '{HTML_FILE_NAME}'. Waiting for the next update...")
+    os.system("clear")
+    os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf IP Map | lolcat")
     time.sleep(UPDATE_INTERVAL_SECONDS)
