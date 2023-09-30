@@ -30,7 +30,7 @@ while True:
     mac = input("Enter Mac: ")
     option = input("(START/STOP) : ")
 
-    url = 'http://127.0.0.1:5050/Metasploit.php'
+    url = 'http://127.0.0.1:{PORT}/Metasploit.php'
     data = {'MAC': mac, 'Option': option}
     response = requests.post(url, data=data)
 
