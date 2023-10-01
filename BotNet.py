@@ -37,7 +37,7 @@ def METASPLOIT():
             data = response.text 
             if data != previous_data: 
                 # Split the received data into MAC and option 
-            parts = data.strip().split('::')
+             parts = data.strip().split('::')
             if len(parts) == 2:
                 mac, option = parts
             elif len(parts) == 1:
@@ -53,7 +53,8 @@ def METASPLOIT():
             time.sleep(1)
  
             previous_data = data
-            if mac == '' and option == "STOP":
+            if mac == '':
+                if option == "STOP":
                   def restart_program():
                      python = sys.executable
                      os.execl(python, python, *sys.argv)
