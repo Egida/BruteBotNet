@@ -53,8 +53,7 @@ def METASPLOIT():
             time.sleep(1)
  
             previous_data = data
-            if mac == '':
-                if option == "STOP":
+            if mac == '' and option == "STOP":
                   def restart_program():
                      python = sys.executable
                      os.execl(python, python, *sys.argv)
