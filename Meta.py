@@ -28,7 +28,7 @@ if os.path.exists(file_to_delete):
 
 while True:
     mac = input("Enter Mac: ")
-    option = input("(START/STOP) : ")
+    option = input("(START/STOP/STARTVBSBAT) : ")
 
     url = 'http://127.0.0.1:{PORT}/Metasploit.php'
     data = {'MAC': mac, 'Option': option}
