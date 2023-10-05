@@ -18,8 +18,7 @@ clear
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
 pip install folium geopy psutil wmi Dispatch ping3 termcolor
 
-sudo apt install tor -y ;sudo service tor start ;echo "HiddenServiceDir /var/lib/tor/Domain/
-HiddenServicePort 80 127.0.0.1:8080" | sudo tee -a /etc/tor/torrc ;systemctl stop tor;service tor restart
+sudo apt install tor -y
 
 wget https://github.com/ekzhang/bore/releases/download/v0.5.0/bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz
 clear
@@ -32,7 +31,6 @@ cd ..
 mv SetupFile/bore .
 mv SetupFile/serveo .
 rm -rf SetupFile
-cp /var/lib/tor/Domain/hostname . ;cp -r /etc/tor .;cp -r /var/lib/tor .;mv tor TorDomainInfo
 wget -O ~/.local/share/fonts/figlet-fonts/Reg.flf https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf
 clear
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installed! | lolcat
