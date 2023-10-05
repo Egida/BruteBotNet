@@ -6,9 +6,8 @@ mkdir -p ~/.local/share/fonts/figlet-fonts/
 git clone https://github.com/xero/figlet-fonts.git ~/.local/share/fonts/figlet-fonts/
 clear
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
-pip install folium geopy psutil wmi Dispatch ping3 termcolor
+pip install folium geopy psutil wmi Dispatch ping3 termcolor 
 wget https://github.com/ekzhang/bore/releases/download/v0.5.0/bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz
-wget https://storage.googleapis.com/serveo/download/2018-05-08/serveo-linux-amd64 ;chmod +x serveo-linux-amd64 ;mv serveo-linux-amd64 serveo
 clear
 sleep 1
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
