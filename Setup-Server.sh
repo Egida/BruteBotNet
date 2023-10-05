@@ -1,12 +1,23 @@
+#!/bin/bash
+
+if [[ $EUID -ne 0 ]]; then
+    echo "This script requires root privileges to execute."
+    echo "Please run the script with sudo or as the root user."
+    exit 1
+fi
+
 mkdir SetupFile
 cd SetupFile
+
 sudo apt-get update -y
 sudo apt-get install python3 python2 python3-pip figlet lolcat git php dbus-x11 gnome-terminal -y
+
 mkdir -p ~/.local/share/fonts/figlet-fonts/
 git clone https://github.com/xero/figlet-fonts.git ~/.local/share/fonts/figlet-fonts/
 clear
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
-pip install folium geopy psutil wmi Dispatch ping3 termcolor 
+pip install folium geopy psutil wmi Dispatch ping3 termcolor
+
 wget https://github.com/ekzhang/bore/releases/download/v0.5.0/bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz
 clear
 sleep 1
@@ -37,4 +48,3 @@ sleep 1
 clear
 gnome-terminal -- python3 Run-Server.py
 exit
-
