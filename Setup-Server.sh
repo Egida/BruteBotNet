@@ -19,6 +19,8 @@ figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
 pip install folium geopy psutil wmi Dispatch ping3 termcolor
 
 sudo apt install tor -y
+systemctl start tor
+service tor start
 
 wget https://github.com/ekzhang/bore/releases/download/v0.5.0/bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz
 clear
