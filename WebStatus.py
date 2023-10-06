@@ -3,7 +3,6 @@ import requests
 import time
 from termcolor import colored
 
-# قائمة بالمسارات التي سيتم البحث فيها
 possible_paths = [
     "/var/lib/tor/Domain/hostname",
     "~/hostname",
@@ -27,7 +26,6 @@ def read_tor_domain(file_path):
 def check_tor_domain_status(tor_domain):
     while True:
         try:
-            # تجميع العنوان المخفي للموقع مع بروتوكوله
             tor_address = f"http://{tor_domain}"
 
             response = requests.get(tor_address)
@@ -51,7 +49,6 @@ def check_tor_domain_status(tor_domain):
 
         time.sleep(5)
 
-# البحث عن الملف وقراءة الدومين
 tor_host_file = find_tor_host_file()
 if tor_host_file:
     tor_domain = read_tor_domain(tor_host_file)
