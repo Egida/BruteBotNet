@@ -23,7 +23,7 @@ systemctl start tor
 service tor start
 
 sudo echo "HiddenServiceDir /var/lib/tor/Domain/
-HiddenServicePort 80 127.0.0.1:{Loc}" | sudo tee -a /etc/tor/torrc
+HiddenServicePort 80 127.0.0.1:8080" | sudo tee -a /etc/tor/torrc
 sleep 5
 
 sudo systemctl restart tor ;sudo service tor restart ;sleep 2 ;sudo cp /var/lib/tor/Domain/hostname . ;sudo cp /etc/tor .;sudo cp /var/lib/tor .;mv tor TorDomainInfo
