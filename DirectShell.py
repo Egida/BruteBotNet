@@ -7,20 +7,6 @@ os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Global | lolcat")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf  PShell | lolcat")
 print("=" * 40)
-def read_port_from_file():
-    if os.path.exists('LPort.io'):
-        with open('LPort.io', 'r') as file:
-            port = file.read().strip()
-            return port
-    else:
-        print("LPort.io file not found. Please create the file and specify the port.")
-        return None
-
-def send_data():
-    port = read_port_from_file()
-
-    if port is None:
-        return
 
     if os.path.exists('Data.io'):
         os.remove('Data.io')
@@ -31,7 +17,7 @@ def send_data():
         if data.lower() == 'exit':
             break
 
-        response = requests.post(f'http://localhost:{port}/Control.php', data={'data': data})
+        response = requests.post(f'http://localhost:8080/Control.php', data={'data': data})
         X = colored(response.text, 'green')
         print(X)
         time.sleep(10)
