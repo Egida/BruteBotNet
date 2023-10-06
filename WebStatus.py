@@ -3,6 +3,17 @@ import requests
 import time
 from termcolor import colored
 
+
+
+proxies = {
+    'http': 'socks5h://127.0.0.1:9150',  # Tor proxy address and port for HTTP
+    'https': 'socks5h://127.0.0.1:9150'  # Tor proxy address and port for HTTPS
+}
+
+requests_session = requests.Session()
+requests_session.proxies.update(proxies)
+
+
 possible_paths = [
     "/var/lib/tor/Domain/hostname",
     "~/hostname",
@@ -28,7 +39,7 @@ def check_tor_domain_status(tor_domain):
         try:
             tor_address = f"http://{tor_domain}/WebStatus"
 
-            response = requests.get(tor_address)
+            response = requests_session.get(tor_address)
             response.raise_for_status()
             status = colored("[+] Connected", 'green')
             response_time = response.elapsed.total_seconds()
