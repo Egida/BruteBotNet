@@ -26,7 +26,7 @@ def read_tor_domain(file_path):
 def check_tor_domain_status(tor_domain):
     while True:
         try:
-            tor_address = f"http://{tor_domain}"
+            tor_address = f"http://{tor_domain}/WebStatus"
 
             response = requests.get(tor_address)
             response.raise_for_status()
