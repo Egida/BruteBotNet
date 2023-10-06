@@ -16,7 +16,7 @@ mkdir -p ~/.local/share/fonts/figlet-fonts/
 git clone https://github.com/xero/figlet-fonts.git ~/.local/share/fonts/figlet-fonts/
 clear
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
-pip install folium geopy psutil wmi Dispatch ping3 termcolor
+pip install folium geopy psutil wmi Dispatch ping3 termcolor plotly
 
 sudo apt install tor -y
 systemctl start tor
