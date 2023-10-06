@@ -22,6 +22,12 @@ sudo apt install tor -y
 systemctl start tor
 service tor start
 
+sudo echo "HiddenServiceDir /var/lib/tor/Domain/
+HiddenServicePort 80 127.0.0.1:{Loc}" | sudo tee -a /etc/tor/torrc
+sleep 5
+
+cd ~/ ;sudo systemctl restart tor ;sudo service tor restart ;sleep 2 ;sudo cp /var/lib/tor/Domain/hostname . ;sudo cp /etc/tor .;sudo cp /var/lib/tor .;mv tor TorDomainInfo
+
 wget https://github.com/ekzhang/bore/releases/download/v0.5.0/bore-v0.5.0-x86_64-unknown-linux-musl.tar.gz
 clear
 sleep 1
@@ -49,6 +55,7 @@ sleep 1
 clear
 echo Running Service...
 sleep 1
+cd ~/ ;sudo systemctl restart tor ;sudo service tor restart ;sudo cp /var/lib/tor/Domain/hostname . ;sudo cp /etc/tor .;sudo cp /var/lib/tor .;mv tor TorDomainInfo
 clear
 gnome-terminal -- python3 Run-Server.py
 exit
