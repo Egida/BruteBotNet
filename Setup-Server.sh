@@ -24,7 +24,7 @@ service tor start
 
 sudo echo "HiddenServiceDir /var/lib/tor/Domain/
 HiddenServicePort 80 127.0.0.1:8080" | sudo tee -a /etc/tor/torrc
-echo -e "SocksPort 127.0.0.1:9150\nSocksPort 127.0.0.1:9150 IPv6Traffic PreferIPv6 KeepAliveIsolateSOCKSAuth" | sudo tee -a /etc/tor/torrc
+echo -e "SocksPort 127.0.0.1:9151" | sudo tee -a /etc/tor/torrc
 
 sleep 5
 
