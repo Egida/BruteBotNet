@@ -1,105 +1,63 @@
-import requests
 import os
+import requests
 import time
 from termcolor import colored
 
-os.system("clear")
-os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
+# قائمة بالمسارات التي سيتم البحث فيها
+possible_paths = [
+    "/var/lib/tor/Domain/hostname",
+    "~/hostname",
+    "~/TorDomainInfo/Domain/hostname",
+]
 
-def safe_input(prompt):
-    try:
-        return input(prompt)
-    except UnicodeDecodeError:
-        print("Invalid input. Please enter valid characters.")
-        return safe_input(prompt)
+def find_tor_host_file():
+    for path in possible_paths:
+        expanded_path = os.path.expanduser(path)
+        if os.path.isfile(expanded_path):
+            return expanded_path
+    return None
 
-def check_bore_status(ports):
-    while True:
-        os.system("clear")
-        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
-        websites = [f"http://bore.pub:{port}/WebStatus" for port in ports]
-        check_websites(websites)
-
-def check_serveo_domain_status(domain):
-    while True:
-        os.system("clear")
-        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
-        website = f"https://{domain}.serveo.net/WebStatus"
-        check_websites([website])
-
-def check_websites(websites):
-    while True:
-        for website in websites:
-            try:
-                response = requests.get(website)
-                response.raise_for_status()
-                status = colored("[+] Connected", 'green')
-                response_time = response.elapsed.total_seconds()
-            except requests.exceptions.RequestException as e:
-                status = colored("[-] Not Connected", 'red')
-                response_time = None
-
-            os.system("clear")
-            os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
-            print("=" * 40)
-            print(f"Website: {website}")
-            print(f'Status: {status}')
-            if status == colored("[-] Not Connected", 'red'):
-                print("Error Check WebSite!")
-            elif response_time is not None:
-                print(f"Response Time: {response_time:.5f} seconds")
-            print("=" * 40)
-
-        time.sleep(5)
-
-def get_ports_from_file(file_path):
-    try:
-        with open(file_path, "r") as file:
-            lines = file.readlines()
-
-        ports = []
-        for line in lines:
-            parts = line.strip().split("=")
-            if len(parts) == 2:
-                try:
-                    port = int(parts[1].strip())
-                    ports.append(port)
-                except ValueError:
-                    print(f"Invalid port value: {parts[1].strip()}")
-
-        return ports
-    except FileNotFoundError:
-        print(f"File not found: {file_path}")
-        return []
-
-def get_domain_from_file(file_path):
+def read_tor_domain(file_path):
     try:
         with open(file_path, "r") as file:
             return file.readline().strip()
     except FileNotFoundError:
         return None
 
-def save_domain_to_file(domain, file_path):
-    with open(file_path, "w") as file:
-        file.write(domain)
+def check_tor_domain_status(tor_domain):
+    while True:
+        try:
+            # تجميع العنوان المخفي للموقع مع بروتوكوله
+            tor_address = f"http://{tor_domain}"
 
-while True:
-    print("Choose your connectivity service provider:")
-    print("1 - BORE")
-    print("2 - SERVEO Domain")
+            response = requests.get(tor_address)
+            response.raise_for_status()
+            status = colored("[+] Connected", 'green')
+            response_time = response.elapsed.total_seconds()
+        except requests.exceptions.RequestException as e:
+            status = colored("[-] Not Connected", 'red')
+            response_time = None
 
-    SERVICE = safe_input("Choose (1 or 2): ")
+        os.system("clear")
+        os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
+        print("=" * 40)
+        print(f"Tor Domain: {tor_domain}")
+        print(f'Status: {status}')
+        if status == colored("[-] Not Connected", 'red'):
+            print("Error Checking Tor Domain!")
+        elif response_time is not None:
+            print(f"Response Time: {response_time:.5f} seconds")
+        print("=" * 40)
 
-    if SERVICE == "1":
-        ports = get_ports_from_file("Ports.io")
-        check_bore_status(ports)
-    elif SERVICE == "2":
-        saved_domain = get_domain_from_file("Domain.io")
-        if saved_domain:
-            DOMAIN = saved_domain
-        else:
-            DOMAIN = input("Enter Your Domain: ")
-            save_domain_to_file(DOMAIN, "Domain.io")
-        check_serveo_domain_status(DOMAIN)
+        time.sleep(5)
+
+# البحث عن الملف وقراءة الدومين
+tor_host_file = find_tor_host_file()
+if tor_host_file:
+    tor_domain = read_tor_domain(tor_host_file)
+    if tor_domain:
+        check_tor_domain_status(tor_domain)
     else:
-        print("Invalid choice. Please choose 1 or 2.")
+        print(f"Tor domain not found in {tor_host_file}")
+else:
+    print("Tor host file not found in any of the specified paths.")
