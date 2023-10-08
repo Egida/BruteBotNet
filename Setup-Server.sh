@@ -57,7 +57,6 @@ sleep 1
 clear
 echo Running Service...
 sleep 1
-cd ~/ ;sudo systemctl restart tor ;sudo service tor restart ;sudo cp /var/lib/tor/Domain/hostname . ;sudo cp /etc/tor .;sudo cp /var/lib/tor .;mv tor TorDomainInfo
 clear
 gnome-terminal -- python3 Run-Server.py
 exit
