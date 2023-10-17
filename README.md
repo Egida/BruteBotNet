@@ -1,5 +1,5 @@
 # BruteBotNet
-<a class="center" href="https://i.ibb.co/FsKvpZ9/BBN.png" target="_blank" title="https://i.ibb.co/FsKvpZ9/BBN.png"><img src="https://i.ibb.co/FsKvpZ9/BBN.png" border="0" class="center" alt="https://i.ibb.co/FsKvpZ9/BBN.png" class="center" /></a>
+<a href="https://raw.githubusercontent.com/AzizDXT/DDEN/main/BBN.png" target="_blank" title="https://raw.githubusercontent.com/AzizDXT/DDEN/main/BBN.png"><img src="https://raw.githubusercontent.com/AzizDXT/DDEN/main/BBN.png" border="0" alt="https://raw.githubusercontent.com/AzizDXT/DDEN/main/BBN.png" /></a>
 
 
 #### This is one of the projects related to cybersecurity and ethical penetration testing. Use it with caution and do not overuse it negatively. I completely disclaim responsibility for any misuse of these tools.
