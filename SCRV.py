@@ -5,8 +5,8 @@ import numpy as np
 from io import BytesIO
 import os
 os.system("clear")
-os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Meta | lolcat")
-os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Network | lolcat")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf SCR | lolcat")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Cloning | lolcat")
 print("=" * 40)
 X = input("LocalHost Port : ")
 HOST = '0.0.0.0' 
