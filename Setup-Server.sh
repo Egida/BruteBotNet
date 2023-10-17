@@ -8,7 +8,7 @@ fi
 
 mkdir SetupFile
 cd SetupFile
-
+sudo apt install python3-pip python3-socks
 sudo apt-get update -y
 sudo apt-get install python3 python2 python3-pip figlet lolcat git php dbus-x11 gnome-terminal -y
 
