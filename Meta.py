@@ -29,6 +29,7 @@ while True:
        os.execl(python_executable, python_executable, *sys.argv)
     elif option == "SCRV":
        os.system("gnome-terminal -- python3 SCRV.py")
+       print(" >>> PORT : 8060 | HOST : 127.0.0.1")
     elif option == "START":
            print("Use Metasploit Tool in | LPORT : 8070 | LHOST : 127.0.0.1")
 
