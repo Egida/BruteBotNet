@@ -28,13 +28,12 @@ echo -e "SocksPort 127.0.0.1:9151" | sudo tee -a /etc/tor/torrc
 
 
 sudo echo "HiddenServiceDir /var/lib/tor/Domain/
-HiddenServicePort 80 127.0.0.1:8070" | sudo tee -a /etc/tor/torrc
-echo -e "SocksPort 127.0.0.1:9151" | sudo tee -a /etc/tor/torrc
-
-
-sudo echo "HiddenServiceDir /var/lib/tor/Domain/
+HiddenServicePort 80 127.0.0.1:8080
+HiddenServicePort 80 127.0.0.1:8070
 HiddenServicePort 80 127.0.0.1:8060" | sudo tee -a /etc/tor/torrc
 echo -e "SocksPort 127.0.0.1:9151" | sudo tee -a /etc/tor/torrc
+
+
 
 sleep 5
 
