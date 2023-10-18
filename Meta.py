@@ -30,10 +30,7 @@ while True:
     elif option == "SCRV":
        os.system("gnome-terminal -- python3 SCRV.py")
     elif option == "START":
-       PORT = input("LocalHost Port : ")
-       BPORT = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
-       for port in BPORT:
-           os.system(f"gnome-terminal -- ./bore local {PORT} --to bore.pub -p {port}")
+           print("Use Metasploit Tool in | LPORT : 8070 | LHOST : 127.0.0.1")
 
     else:
         target = ""
