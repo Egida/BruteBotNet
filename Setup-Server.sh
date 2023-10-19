@@ -18,6 +18,18 @@ clear
 figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Installing... | lolcat
 pip install folium geopy psutil wmi Dispatch ping3 termcolor plotly mss opencv-python
 
+sudo apt-get install libgtk2.0-dev pkg-config -y
+sudo apt-get install portaudio19-dev -y
+pip install pyaudio
+pip install vidstream
+xhost +
+sudo apt-get install libgtk2.0-dev pkg-config
+pip uninstall opencv-python
+pip install opencv-python-headless
+pip install opencv-python
+
+
+
 sudo apt install tor -y
 systemctl start tor
 service tor start
