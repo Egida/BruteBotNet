@@ -3,6 +3,11 @@ from termcolor import colored
 import sys
 import os
 
+# Check for root privileges
+if os.geteuid() != 0:
+    print("You must run the script as a root user or with sudo privileges.")
+    sys.exit(1)
+
 os.system("sudo systemctl start tor; service tor start")
 time.sleep(0.5)
 os.system("clear")
