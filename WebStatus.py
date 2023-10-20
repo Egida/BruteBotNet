@@ -27,14 +27,22 @@ proxies = {
 requests_session = requests.Session()
 requests_session.proxies.update(proxies)
 
+# Initialize the connection status and delay
+connected = False
+delay = 0.5
+
 while True:
     try:
         response = requests_session.get(url)
 
         if response.status_code == 200:
             status = colored("[+] Connected", 'green')
+            # If connected, set the delay to 60 seconds
+            delay = 30
         else:
             status = colored("[-] Not Connected", 'red')
+            # If not connected, set the delay to 0.2 seconds
+            delay = 0
 
         response_time = response.elapsed.total_seconds() if response.elapsed else None
 
@@ -50,13 +58,20 @@ while True:
             print(f"Response Time: {response_time:.5f} seconds")
         print("=" * 40)
 
+        # Update the connection status
+        connected = True if status == colored("[+] Connected", 'green') else False
+
     except requests.exceptions.RequestException:
         os.system("clear")
         os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
         print("=" * 40)
         print(f"Page URL: {url}")
-        print("Status:",colored("[-] Not Connected", 'red'))
+        print("Status:", colored("[-] Not Connected", 'red'))
         print("Error: Unable to connect to the website.")
         print("=" * 40)
 
-    time.sleep(1)  # Wait for some time before performing a new check
+        # If not connected, set the delay to 0.2 seconds
+        delay = 0
+        connected = False
+
+    time.sleep(delay)  # Wait for some time before performing a new check
