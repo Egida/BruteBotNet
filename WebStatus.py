@@ -59,4 +59,4 @@ while True:
         print("Error: Unable to connect to the website.")
         print("=" * 40)
 
-    time.sleep(0.5)  # Wait for some time before performing a new check
+    time.sleep(1)  # Wait for some time before performing a new check
