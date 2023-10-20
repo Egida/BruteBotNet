@@ -55,7 +55,7 @@ while True:
         os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf WebStatus | lolcat")
         print("=" * 40)
         print(f"Page URL: {url}")
-        print("Status: ",colored("[-] Not Connected", 'red'))
+        print("Status:",colored("[-] Not Connected", 'red'))
         print("Error: Unable to connect to the website.")
         print("=" * 40)
 
