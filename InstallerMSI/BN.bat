@@ -1,1 +1,0 @@
-"C:\Users\%USERNAME%\AppData\System\BNV.vbs"
