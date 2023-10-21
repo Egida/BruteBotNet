@@ -49,7 +49,7 @@ while True:
     except Exception as e:
         print(f"Error: {str(e)}")
 
-    time.sleep(10)
+    time.sleep(30)
     file_to_delete = "Meta.io"  
 
     if os.path.exists(file_to_delete):
