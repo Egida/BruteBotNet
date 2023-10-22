@@ -11,7 +11,7 @@ subprocess.run(["sudo", "apt", "install"] + packages + ["-y"])
 # Clone figlet fonts
 os.makedirs("~/.local/share/fonts/figlet-fonts/", exist_ok=True)
 subprocess.run(["git", "clone", "https://github.com/xero/figlet-fonts.git", "~/.local/share/fonts/figlet-fonts/"])
-
+os.system("cd ~/.local/share/fonts/figlet-fonts/ ; mv 'ANSI Regular.flf' Reg.flf")
 # Install Python packages
 python_packages = ["folium", "geopy", "psutil", "wmi", "Dispatch", "ping3", "termcolor", "plotly", "mss", "opencv-python"]
 subprocess.run(["pip", "install"] + python_packages)
