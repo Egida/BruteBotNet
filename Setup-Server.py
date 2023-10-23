@@ -26,7 +26,7 @@ tor_config = """
 HiddenServiceDir /var/lib/tor/Domain/
 HiddenServicePort 80 127.0.0.1:8080
 HiddenServicePort 80 127.0.0.1:8070
-SocksPort 127.0.0.1:9151
+SocksPort 127.0.0.1:9050
 """
 with open("/etc/tor/torrc", "a") as torrc:
     torrc.write(tor_config)
