@@ -19,8 +19,8 @@ url = f'http://{tor_domain}/WebStatus' if tor_domain else ''
 
 # Tor proxy configuration
 proxies = {
-    'http': 'socks5h://127.0.0.1:9151',  # Tor proxy address and port for HTTP
-    'https': 'socks5h://127.0.0.1:9151'  # Tor proxy address and port for HTTPS
+    'http': 'socks5h://127.0.0.1:9150',  # Tor proxy address and port for HTTP
+    'https': 'socks5h://127.0.0.1:9150'  # Tor proxy address and port for HTTPS
 }
 
 # Create a Requests session with proxy configuration
