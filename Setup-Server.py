@@ -32,11 +32,11 @@ with open("/etc/tor/torrc", "a") as torrc:
     torrc.write(tor_config)
 
 time.sleep(5)
-subprocess.run(["sudo", "systemctl", "restart", "tor"])
-subprocess.run(["sudo", "cp", "/var/lib/tor/Domain/hostname", "."])
-subprocess.run(["sudo", "cp", "-r", "/etc/tor", "."])
-subprocess.run(["sudo", "cp", "-r", "/var/lib/tor", "."])
-os.rename("tor", "TorDomainInfo")
+#subprocess.run(["sudo", "systemctl", "restart", "tor"])
+#subprocess.run(["sudo", "cp", "/var/lib/tor/Domain/hostname", "."])
+#subprocess.run(["sudo", "cp", "-r", "/etc/tor", "."])
+#subprocess.run(["sudo", "cp", "-r", "/var/lib/tor", "."])
+#os.rename("tor", "TorDomainInfo")
 
 # Download figlet font "Reg.flf"
 subprocess.run(["wget", "-O", "~/.local/share/fonts/figlet-fonts/Reg.flf", "https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf"])
