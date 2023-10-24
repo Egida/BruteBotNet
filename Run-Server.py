@@ -50,7 +50,7 @@ print("Operating instructions : ")
 print("=" * 40)
 print('->>> Run "python3 Run-Server.py" to start service (after restart).')
 print("=" * 40)
-print("You must restart your device to start the services properly. Do you want to restart your device now? (y/n)")
+print("->>> You must restart your device to start the services properly. Do you want to restart your device now? (y/n)")
 print("=" * 40)
 x = input(" >>> ")
 if x == "y" or "Y":
