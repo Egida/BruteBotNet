@@ -22,7 +22,7 @@ print("=" * 60)
 Loc = "8080"
 print("LocalHost Port 8080")
 print("=" * 60)
-print("")
+print("#" * 60)
 print("=" * 60)
 print("TOR will be the main service provider")
 print("=" * 60)
