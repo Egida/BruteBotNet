@@ -44,5 +44,6 @@ subprocess.run(["wget", "-O", "~/.local/share/fonts/figlet-fonts/Reg.flf", "http
 # Display success message
 print("Installation completed!")
 
+time.sleep(5)
 # Start the service in a new GNOME Terminal window
 subprocess.run(["gnome-terminal", "--", "python3", "Run-Server.py"])
