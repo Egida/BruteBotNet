@@ -30,7 +30,7 @@ SocksPort 127.0.0.1:9150
 """
 with open("/etc/tor/torrc", "a") as torrc:
     torrc.write(tor_config)
-
+os.system("service tor restar ;systemctl restart tor")
 time.sleep(5)
 #subprocess.run(["sudo", "systemctl", "restart", "tor"])
 #subprocess.run(["sudo", "cp", "/var/lib/tor/Domain/hostname", "."])
