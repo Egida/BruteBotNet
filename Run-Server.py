@@ -40,6 +40,6 @@ time.sleep(5)
 
 # Download figlet font "Reg.flf"
 subprocess.run(["wget", "-O", "~/.local/share/fonts/figlet-fonts/Reg.flf", "https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf"])
-
+os.system("clear")
 # Display success message
 print("Installation completed!")
