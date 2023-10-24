@@ -1,45 +1,62 @@
-import os
-import subprocess
 import time
-import requests
+from termcolor import colored
+import sys
+import os
 
-# Install necessary packages
-packages = ["python3-pip", "python3-socks", "php", "dbus-x11", "gnome-terminal"]
-subprocess.run(["sudo", "apt", "update"])
-subprocess.run(["sudo", "apt", "install"] + packages + ["-y"])
+# Check for root privileges
+if os.geteuid() != 0:
+    print("You must run the script as a root user or with sudo privileges.")
+    sys.exit(1)
 
-# Clone figlet fonts
-os.makedirs("~/.local/share/fonts/figlet-fonts/", exist_ok=True)
-subprocess.run(["git", "clone", "https://github.com/xero/figlet-fonts.git", "~/.local/share/fonts/figlet-fonts/"])
-os.system("cd ~/.local/share/fonts/figlet-fonts/ ; mv 'ANSI Regular.flf' Reg.flf")
-# Install Python packages
-python_packages = ["folium", "geopy", "psutil", "wmi", "Dispatch", "ping3", "termcolor", "plotly", "mss", "opencv-python"]
-subprocess.run(["pip", "install"] + python_packages)
-
-# Install and start Tor
-subprocess.run(["sudo", "apt", "install", "tor", "-y"])
-subprocess.run(["sudo", "systemctl", "start", "tor"])
-subprocess.run(["sudo", "service", "tor", "start"])
-
-# Configure Tor Hidden Service
-tor_config = """
-HiddenServiceDir /var/lib/tor/Domain/
-HiddenServicePort 80 127.0.0.1:8080
-HiddenServicePort 80 127.0.0.1:8070
-SocksPort 127.0.0.1:9150
-"""
-with open("/etc/tor/torrc", "a") as torrc:
-    torrc.write(tor_config)
-
-time.sleep(5)
-#subprocess.run(["sudo", "systemctl", "restart", "tor"])
-#subprocess.run(["sudo", "cp", "/var/lib/tor/Domain/hostname", "."])
-#subprocess.run(["sudo", "cp", "-r", "/etc/tor", "."])
-#subprocess.run(["sudo", "cp", "-r", "/var/lib/tor", "."])
-#os.rename("tor", "TorDomainInfo")
-
-# Download figlet font "Reg.flf"
-subprocess.run(["wget", "-O", "~/.local/share/fonts/figlet-fonts/Reg.flf", "https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf"])
+os.system("sudo systemctl start tor; service tor start")
+time.sleep(0.5)
 os.system("clear")
-# Display success message
-print("Installation completed!")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup. | lolcat")
+time.sleep(0.5)
+os.system("clear")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup.. | lolcat")
+time.sleep(0.5)
+os.system("clear")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup... | lolcat")
+print("=" * 60)
+Loc = "8080"
+print("LocalHost Port 8080")
+print("=" * 60)
+print("")
+print("=" * 60)
+print("TOR will be the main service provider")
+print("=" * 60)
+time.sleep(3)
+
+for _ in range(1):
+    os.system("clear")
+    os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Running. | lolcat")
+    time.sleep(0.5)
+    os.system("clear")
+    os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Running.. | lolcat")
+    time.sleep(0.5)
+    os.system("clear")
+    os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Running... | lolcat")
+    time.sleep(0.5)
+    os.system("clear")
+    os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Running. | lolcat")
+    time.sleep(0.5)
+    os.system("clear")
+    os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Running.. | lolcat")
+    time.sleep(0.5)
+    os.system("clear")
+    os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Running... | lolcat")
+    time.sleep(0.5)
+os.system("clear")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf SERVER! | lolcat")
+
+time.sleep(1)
+time.sleep(2)
+
+command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py & gnome-terminal -- python3 DirectShell.py & gnome-terminal -- python3 Meta.py"
+os.system(command)
+time.sleep(3)
+print(f"Your Tor Domain : ")
+os.system("cat /var/lib/tor/Domain/hostname")
+time.sleep(5)
+os.system("exit")
