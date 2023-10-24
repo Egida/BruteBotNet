@@ -43,18 +43,3 @@ subprocess.run(["wget", "-O", "~/.local/share/fonts/figlet-fonts/Reg.flf", "http
 
 # Display success message
 print("Installation completed!")
-os.system("clear")
-os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Restart? | lolcat")
-print("Operating instructions : ")
-
-print("=" * 40)
-print('->>> Run "python3 Run-Server.py" to start service (after restart).')
-print("=" * 40)
-print("->>> You must restart your device to start the services properly. Do you want to restart your device now? (y/n)")
-print("=" * 40)
-x = input(" >>> ")
-if x == "y" or "Y":
-    os.system("reboot")
-else:
-    print("You must restart your device to start the services properly. If you previously restarted your device after installing the program, you can continue.")
-time.sleep(5)
