@@ -1,83 +1,44 @@
 import os
 import re
 import time
-import requests
 import folium
-import json
-from art import *
-from geopy.geocoders import Nominatim
+import requests
 
-# Function to clear the terminal screen based on the operating system
-def clear_screen():
-    if os.name == 'nt':  # Windows
-        os.system('cls')
-    else:  # Non-Windows (e.g., Linux, macOS)
-        os.system('clear')
+# إنشاء خريطة
+m = folium.Map()
 
-# Directory where the text files are located (replace with your directory path)
-directory_path = "."
+# المجلد الذي سنبحث فيه عن الملفات
+search_dir = "."
 
-# Function to extract IP addresses from a text file
-def extract_ip_addresses(file_path):
-    ip_addresses = []
-    with open(file_path, 'r', encoding='latin-1') as file:
-        content = file.read()
-        # Use a regular expression to find IP addresses in the file
-        ip_pattern = r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b'
-        ip_addresses.extend(re.findall(ip_pattern, content))
-    return ip_addresses
+# النمط الذي سنستخدم للبحث عن الملفات
+file_pattern = r".*\.txt"  # يمكنك تغيير النمط حسب احتياجاتك
 
-# Function to create a map with IP markers using Folium
-def create_ip_map(ip_list):
-    m = folium.Map(location=[0, 0], zoom_start=2)  # Initial map with a global view
-
-    geolocator = Nominatim(user_agent="ip-geolocator")
-
-    for ip in ip_list:
-        location = get_location(ip, geolocator)
-        if location:
-            folium.Marker(
-                location=location,
-                popup=f"IP: {ip}",
-            ).add_to(m)
-
-    return m
-
-# Function to get location data for an IP address using geopy (Nominatim)
-def get_location(ip, geolocator):
-    try:
-        location = geolocator.geocode(ip, timeout=10)  # Increase timeout to 10 seconds
-        if location:
-            return [location.latitude, location.longitude]
-    except Exception as e:
-        print(f"Error: {str(e)}")
-        return None
-
-# Main loop to continuously monitor and update the IP map
 while True:
-    clear_screen()
+    m = folium.Map()  # إعادة إنشاء الخريطة في كل دورة للتحديث
+    for root, dirs, files in os.walk(search_dir):
+        for filename in files:
+            if re.match(file_pattern, filename):
+                with open(os.path.join(root, filename), 'r') as file:
+                    data = file.read()
+                    ip_address = re.search(r'"IP_Address": "(\d+\.\d+\.\d+\.\d+)"', data)
+                    if ip_address:
+                        ip_address = ip_address.group(1)
+                        # استخدم "ipfind.com" للبحث عن المعلومات الجغرافية بناءً على عنوان IP
+                        response = requests.get(f"https://api.ipfind.com?ip={ip_address}")
+                        if response.status_code == 200:
+                            location_data = response.json()
+                            latitude = location_data.get("latitude")
+                            longitude = location_data.get("longitude")
+                            folium.Marker([float(latitude), float(longitude)], popup=data).add_to(m)
+                        else:
+                            print(f"Unable to find coordinates for IP address: {ip_address}")
+
+    # حفظ الخريطة في ملف HTML
+    m.save('map.html')
+
+    # انتظار لبعض الوقت قبل البحث مرة أخرى
+    os.system("clear")
     os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf IP Map | lolcat")
-
-
-    # Initialize a list to store extracted IP addresses
-    extracted_ip_addresses = []
-
-    # Process each file in the directory
-    for filename in os.listdir(directory_path):
-        file_path = os.path.join(directory_path, filename)
-        if os.path.isfile(file_path):
-            extracted_ip_addresses.extend(extract_ip_addresses(file_path))
-
-    # Create a map with IP markers
-    ip_map = create_ip_map(extracted_ip_addresses)
-
-    # Save the map to an HTML file (you can view it in a web browser)
+    time.sleep(60)  # انتظار 5 دقائق (يمكن تغيير الوقت حسب احتياجاتك)
     os.system("rm -rf ip_location_map.html")  # Remove existing file
-    ip_map.save("ip_location_map.html")
-
-    print("Map saved as 'ip_location_map.html'")
-    print("Loading >>>")
-
-    # Clear the terminal after each search
-    time.sleep(5)  # Sleep for 2 seconds
 
