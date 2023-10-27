@@ -19,6 +19,6 @@ for url in urls:
         file_path = destination_folder + file_name
         with open(file_path, 'wb') as file:
             file.write(response.content)
-        print(f'Download > {file_name}')
+        print(f'Downloaded > {file_name}')
     else:
         print(f'No Downloaded {url}')
