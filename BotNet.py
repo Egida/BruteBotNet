@@ -407,7 +407,6 @@ def get_system_info():
 }
 
 
-# قم بتكوين requests لاستخدام البروكسي
         session = requests.Session()
         session.proxies = proxies
 
