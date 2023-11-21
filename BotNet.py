@@ -133,7 +133,7 @@ def METASPLOIT():
                     requests_per_second = 100000
                     def send_requests():
                         try:
-                           response = requests_session.get(target)
+                           response = requests.get(target)
                            if response.status_code == 200:
                                pass
                         except Exception as e:
