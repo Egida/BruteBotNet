@@ -16,9 +16,9 @@ subprocess.run(["sudo", "apt", "update"])
 subprocess.run(["sudo", "apt", "install"] + packages + ["-y"])
 
 # Clone figlet fonts
-os.makedirs("~/.local/share/fonts/figlet-fonts/", exist_ok=True)
-subprocess.run(["git", "clone", "https://github.com/xero/figlet-fonts.git", "~/.local/share/fonts/figlet-fonts/"])
-os.system("cd ~/.local/share/fonts/figlet-fonts/ ; mv 'ANSI Regular.flf' 3d.flf")
+os.makedirs("/root/.local/share/fonts/figlet-fonts/", exist_ok=True)
+subprocess.run(["git", "clone", "https://github.com/xero/figlet-fonts.git", "/root/.local/share/fonts/figlet-fonts/"])
+os.system("cd /root/.local/share/fonts/figlet-fonts/ ; mv 'ANSI Regular.flf' 3d.flf")
 # Install Python packages
 python_packages = ["folium", "geopy", "psutil", "wmi", "Dispatch", "ping3", "termcolor", "plotly", "mss", "opencv-python"]
 subprocess.run(["pip", "install"] + python_packages)
@@ -46,7 +46,7 @@ time.sleep(5)
 #os.rename("tor", "TorDomainInfo")
 
 # Download figlet font "3d.flf"
-subprocess.run(["wget", "-O", "~/.local/share/fonts/figlet-fonts/3d.flf", "https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf"])
+subprocess.run(["wget", "-O", "/root/.local/share/fonts/figlet-fonts/3d.flf", "https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf"])
 
 # Display success message
 print("Installation completed!")
