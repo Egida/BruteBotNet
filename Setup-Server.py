@@ -11,7 +11,7 @@ if os.geteuid() != 0:
 
 
 # Install necessary packages
-packages = ["python3-pip", "python3-socks", "php", "dbus-x11", "gnome-terminal"]
+packages = ["python3-pip", "python3-socks", "php", "dbus-x11", "gnome-terminal", "lolcat","figlet"]
 subprocess.run(["sudo", "apt", "update"])
 subprocess.run(["sudo", "apt", "install"] + packages + ["-y"])
 
