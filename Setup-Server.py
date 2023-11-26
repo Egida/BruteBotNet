@@ -2,6 +2,13 @@ import os
 import subprocess
 import time
 import requests
+import sys
+
+# Check for root privileges
+if os.geteuid() != 0:
+    print("You must run the script as a root user or with sudo privileges.")
+    sys.exit(1)
+
 
 # Install necessary packages
 packages = ["python3-pip", "python3-socks", "php", "dbus-x11", "gnome-terminal"]
