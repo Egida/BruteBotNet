@@ -48,9 +48,9 @@ if __name__ == "__main__":
 
         print(f"Tagets Online : ")
         print(" ")
-        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/Reg.flf {source_count} | lolcat")
+        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf {source_count} | lolcat")
         print(f"Total Targets : ")
         print(" ")
-        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/Reg.flf {target_count} | lolcat")
+        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf {target_count} | lolcat")
         
         time.sleep(1)  
