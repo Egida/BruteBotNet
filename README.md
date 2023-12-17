@@ -6,7 +6,7 @@
 _____________________________________________________________________________________
 ## [ + ] Install :
 ```
-git clone https://github.com/AzizDXT/BruteBotNet.git ; cd BruteBotNet ; python3 Setup-Server.py
+git clone https://github.com/AzizDXT/BruteBotNet.git ; cd BruteBotNet ; sudo apt install python3 ;python3 Setup-Server.py
 
 ```
 
