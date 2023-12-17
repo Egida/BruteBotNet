@@ -3,6 +3,7 @@ import re
 import os
 import time
 import sys
+
 # Check for root privileges
 if os.geteuid() != 0:
     print("You must run the script as a root user or with sudo privileges.")
@@ -14,28 +15,32 @@ subprocess.run(["sudo", "apt", "update"])
 subprocess.run(["sudo", "apt", "install"] + packages + ["-y"])
 
 # Install Nginx UI
-os.system("bash <(curl -L -s https://raw.githubusercontent.com/0xJacky/nginx-ui/master/install.sh) install")
+subprocess.run(["bash", "-c", "curl -L -s https://raw.githubusercontent.com/0xJacky/nginx-ui/master/install.sh | bash -s install"])
 
 # Start Nginx and Nginx UI
-os.system("systemctl enable nginx")
-os.system("systemctl start nginx")
-os.system("systemctl enable nginx-ui")
-os.system("systemctl start nginx-ui")
+subprocess.run(["sudo", "systemctl", "enable", "nginx"])
+subprocess.run(["sudo", "systemctl", "start", "nginx"])
+subprocess.run(["sudo", "systemctl", "enable", "nginx-ui"])
+subprocess.run(["sudo", "systemctl", "start", "nginx-ui"])
 
 # Determine PHP version
-php_version_output = subprocess.check_output(['php', '-v'], text=True)
-version_match = re.search(r'PHP (\d+\.\d+)', php_version_output)
+try:
+    php_version_output = subprocess.check_output(['php', '-v'], text=True)
+    version_match = re.search(r'PHP (\d+\.\d+)', php_version_output)
 
-if version_match:
-    major_version = version_match.group(1)
-    service_command = f'systemctl enable php{major_version}-fpm'
-    service_command = f'systemctl start php{major_version}-fpm'
-    subprocess.run(service_command, shell=True)
-    print(f'Starting PHP-FPM for PHP version {major_version}.')
-else:
-    print('Failed to determine PHP version.')
-    os.system("apt-get install php php-fpm")
-os.system("rm -rf /etc/nginx/sites-available/default")
+    if version_match:
+        major_version = version_match.group(1)
+        subprocess.run(["sudo", "systemctl", "enable", f"php{major_version}-fpm"])
+        subprocess.run(["sudo", "systemctl", "start", f"php{major_version}-fpm"])
+        print(f'Starting PHP-FPM for PHP version {major_version}.')
+    else:
+        print('Failed to determine PHP version.')
+        subprocess.run(["sudo", "apt-get", "install", "php", "php-fpm"])
+except subprocess.CalledProcessError:
+    print("PHP is not installed. Please install PHP and run the script again.")
+
+# Remove default Nginx configuration
+subprocess.run(["sudo", "rm", "-rf", "/etc/nginx/sites-available/default"])
 
 # Create Nginx configuration
 nginx_config = f'''server {{
@@ -72,9 +77,10 @@ with open('/etc/nginx/sites-available/default', 'w') as file:
 print("Nginx configuration has been saved.")
 
 # Clone figlet fonts
-os.makedirs("/root/.local/share/fonts/figlet-fonts/", exist_ok=True)
-subprocess.run(["git", "clone", "https://github.com/xero/figlet-fonts.git", "/root/.local/share/fonts/figlet-fonts/"])
-os.system("cd /root/.local/share/fonts/figlet-fonts/ ; mv 'ANSI Regular.flf' 3d.flf")
+figlet_fonts_path = "/root/.local/share/fonts/figlet-fonts/"
+os.makedirs(figlet_fonts_path, exist_ok=True)
+subprocess.run(["git", "clone", "https://github.com/xero/figlet-fonts.git", figlet_fonts_path])
+subprocess.run(["mv", os.path.join(figlet_fonts_path, 'ANSI Regular.flf'), os.path.join(figlet_fonts_path, '3d.flf')])
 
 # Install Python packages
 python_packages = ["folium", "geopy", "psutil", "wmi", "Dispatch", "ping3", "termcolor", "plotly", "mss", "opencv-python"]
@@ -92,18 +98,20 @@ HiddenServicePort 80 127.0.0.1:8080
 HiddenServicePort 80 127.0.0.1:8070
 SocksPort 127.0.0.1:9150
 """
-with open("/etc/tor/torrc", "a") as torrc:
+torrc_path = "/etc/tor/torrc"
+with open(torrc_path, "a") as torrc:
     torrc.write(tor_config)
-os.system("service tor restart ;systemctl restart tor")
+subprocess.run(["sudo", "service", "tor", "restart"])
+subprocess.run(["sudo", "systemctl", "restart", "tor"])
 time.sleep(5)
 
 # Download figlet font "3d.flf"
-subprocess.run(["wget", "-O", "/root/.local/share/fonts/figlet-fonts/3d.flf", "https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf"])
+subprocess.run(["wget", "-O", os.path.join(figlet_fonts_path, '3d.flf'), "https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf"])
 
 # Display success message
 print("Installation completed!")
-os.system("clear")
-os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Restart? | lolcat")
+subprocess.run(["clear"])
+subprocess.run(["figlet", "-c", "-f", os.path.join(figlet_fonts_path, '3d.flf'), "Restart? | lolcat"])
 print("Operating instructions : ")
 
 print("=" * 40)
@@ -113,7 +121,7 @@ print('->>> Run "python3 Run-Server.py" to start service (after restart).')
 print("=" * 40)
 x = input(" >>> ")
 if x.lower() == "y":
-    os.system("reboot")
+    subprocess.run(["sudo", "reboot"])
 else:
     print("You must restart your device to start the services properly. If you previously restarted your device after installing the program, you can continue.")
 time.sleep(5)
