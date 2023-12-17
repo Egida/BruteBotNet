@@ -9,6 +9,8 @@ if os.geteuid() != 0:
     sys.exit(1)
 
 os.system("sudo systemctl start tor; service tor start")
+os.system("systemctl enable nginx ; systemctl start nginx")
+os.system("systemctl enable nginx-ui ; systemctl start nginx-ui")
 time.sleep(0.5)
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup. | lolcat")
@@ -49,11 +51,9 @@ for _ in range(1):
     time.sleep(0.5)
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf SERVER! | lolcat")
-
 time.sleep(1)
-time.sleep(2)
 
-command = f"gnome-terminal -- php -S 127.0.0.1:{Loc} & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py & gnome-terminal -- python3 DirectShell.py & gnome-terminal -- python3 Meta.py"
+command = f"gnome-terminal -- python3 GPReports.py ; gnome-terminal -- open http://127.0.0.1:9000 & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py & gnome-terminal -- python3 DirectShell.py & gnome-terminal -- python3 Meta.py"
 os.system(command)
 time.sleep(3)
 print(f"Your Tor Domain : ")
