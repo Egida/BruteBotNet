@@ -111,7 +111,7 @@ subprocess.run(["wget", "-O", os.path.join(figlet_fonts_path, '3d.flf'), "https:
 # Display success message
 print("Installation completed!")
 subprocess.run(["clear"])
-subprocess.run(["figlet", "-c", "-f", os.path.join(figlet_fonts_path, '3d.flf'), "Restart? | lolcat"])
+os.system("figlet -c -f /root/.local/share/fonts/figlet-fonts/3d.flf Restart? | lolcat")
 print("Operating instructions : ")
 
 print("=" * 40)
