@@ -76,24 +76,18 @@ with open('/etc/nginx/sites-available/default', 'w') as file:
 
 print("Nginx configuration has been saved.")
 
+def print_and_reduce_path():
+    current_path = os.popen("pwd").read().strip()
 
-def set_permissions_recursive(path):
-    # Set permissions for the given path, ignoring errors for specific directories
-    subprocess.run(f"sudo chmod 755 /{path} 2>/dev/null || true", shell=True, check=False)
+    while os.path.dirname(current_path) != current_path:
+        current_path = os.path.dirname(current_path)
+        if os.path.dirname(current_path) != current_path:
+            os.system(f"sudo chmod 755 {current_path}")
+            os.system(f"sudo chown -R www-data:www-data {current_path}")
+            print(f"Done chmod/chown! >>> {current_path}")
 
-    # Set ownership for the given path, ignoring errors for specific directories
-    subprocess.run(f"sudo chown -R www-data:www-data /{path} 2>/dev/null || true", shell=True, check=False)
-
-# Get the current working directory
-current_path = os.getcwd()
-
-# Split the path into individual directories
-path_parts = current_path.split(os.path.sep)
-
-# Iterate through the path parts and set permissions
-for i in range(len(path_parts), 0, -1):
-    partial_path = os.path.join(*path_parts[:i])
-    set_permissions_recursive(partial_path)
+if __name__ == "__main__":
+    print_and_reduce_path()
 
 # Restart Nginx
 subprocess.run("sudo systemctl restart nginx", shell=True, check=True)
