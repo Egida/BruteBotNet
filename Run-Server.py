@@ -2,8 +2,8 @@ import time
 from termcolor import colored
 import sys
 import os
+import webbrowser
 
-# Check for root privileges
 if os.geteuid() != 0:
     print("You must run the script as a root user or with sudo privileges.")
     sys.exit(1)
@@ -53,8 +53,10 @@ os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf SERVER! | lolcat")
 time.sleep(1)
 
-command = f"gnome-terminal -- python3 GPReports.py ; gnome-terminal -- open http://127.0.0.1:9000 & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py & gnome-terminal -- python3 DirectShell.py & gnome-terminal -- python3 Meta.py"
+command = f"gnome-terminal -- python3 GPReports.py & gnome-terminal -- python3 Networkreports.py & gnome-terminal -- python3 Map.py & gnome-terminal -- python3 Del.py & gnome-terminal -- python3 TargetsData.py & gnome-terminal -- python3 WebStatus.py & gnome-terminal -- python3 DirectShell.py & gnome-terminal -- python3 Meta.py"
 os.system(command)
+url = 'http://127.0.0.1:9000'
+webbrowser.open(url)
 time.sleep(3)
 print(f"Your Tor Domain : ")
 os.system("cat /var/lib/tor/Domain/hostname")
