@@ -60,5 +60,11 @@ webbrowser.open(url)
 time.sleep(3)
 print(f"Your Tor Domain : ")
 os.system("cat /var/lib/tor/Domain/hostname")
+
+your_data = "Hello!"
+file_path = 'Data_100101.txt'
+with open(file_path, 'w') as file:
+    file.write(your_data)
 time.sleep(5)
+os.system("rm Data_100101.txt")
 os.system("exit")
