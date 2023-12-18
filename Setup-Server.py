@@ -84,6 +84,9 @@ def print_and_reduce_path():
         if os.path.dirname(current_path) != current_path:
             os.system(f"sudo chmod 755 {current_path}")
             os.system(f"sudo chown -R www-data:www-data {current_path}")
+            os.system(f"sudo chmod 755 {os.getcwd()}")
+            os.system(f"sudo chown -R www-data:www-data {os.getcwd()}")
+            print(f"Done chmod/chown! >>> {os.getcwd()}")
             print(f"Done chmod/chown! >>> {current_path}")
 
 if __name__ == "__main__":
