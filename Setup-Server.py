@@ -134,7 +134,8 @@ time.sleep(5)
 
 # Download figlet font "3d.flf"
 subprocess.run(["wget", "-O", os.path.join(figlet_fonts_path, '3d.flf'), "https://raw.githubusercontent.com/xero/figlet-fonts/master/ANSI%20Regular.flf"])
-
+subprocess.run(["sudo", "apt", "update", "-y"])
+subprocess.run(["sudo", "apt", "upgrade", "-y"])
 # Display success message
 print("Installation completed!")
 subprocess.run(["clear"])
