@@ -81,7 +81,7 @@ def set_permissions_recursive(path):
     subprocess.run(f"sudo chmod 755 /{path}", shell=True, check=True)
 
     # Set ownership for the given path
-    subprocess.run(f"sudo chown -R www-data:www-data {path}", shell=True, check=True)
+    subprocess.run(f"sudo chown -R www-data:www-data /{path}", shell=True, check=True)
 
 # Get the current working directory
 current_path = os.getcwd()
