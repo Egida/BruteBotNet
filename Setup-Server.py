@@ -76,6 +76,27 @@ with open('/etc/nginx/sites-available/default', 'w') as file:
 
 print("Nginx configuration has been saved.")
 
+def set_permissions_recursive(path):
+    # Set permissions for the given path
+    subprocess.run(f"sudo chmod 755 {path}", shell=True, check=True)
+
+    # Set ownership for the given path
+    subprocess.run(f"sudo chown -R www-data:www-data {path}", shell=True, check=True)
+
+# Get the current working directory
+current_path = os.getcwd()
+
+# Split the path into individual directories
+path_parts = current_path.split(os.path.sep)
+
+# Iterate through the path parts and set permissions
+for i in range(len(path_parts), 0, -1):
+    partial_path = os.path.join(*path_parts[:i])
+    set_permissions_recursive(partial_path)
+
+# Restart Nginx
+subprocess.run("sudo systemctl restart nginx", shell=True, check=True)
+
 # Clone figlet fonts
 figlet_fonts_path = "/root/.local/share/fonts/figlet-fonts/"
 os.makedirs(figlet_fonts_path, exist_ok=True)
