@@ -92,7 +92,7 @@ def print_and_reduce_path():
         sorted_paths = sorted(printed_paths, key=len, reverse=True)
         for path in sorted_paths:
             os.system(f"sudo chmod 755 {path}")
-            os.system(f"sudo chown -R www-data:www-data {path}")
+            os.system(f"sudo chown -R www-data:www-data {os.getcwd()}")
             print(f"Done chmod/chown! >>> {path}")
             print("Reduced Path:", path)
 
