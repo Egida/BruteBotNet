@@ -11,7 +11,8 @@ if os.geteuid() != 0:
 
 # Install necessary packages
 packages = ["python3-pip", "python3-socks", "php", "dbus-x11", "gnome-terminal", "lolcat", "figlet", "php-fpm", "nginx"]
-subprocess.run(["sudo", "apt", "update"])
+subprocess.run(["sudo", "apt", "update", "-y"])
+subprocess.run(["sudo", "apt", "upgrade", "-y"])
 subprocess.run(["sudo", "apt", "install"] + packages + ["-y"])
 
 # Install Nginx UI
