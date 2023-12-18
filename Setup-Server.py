@@ -76,8 +76,29 @@ with open('/etc/nginx/sites-available/default', 'w') as file:
 
 print("Nginx configuration has been saved.")
 
-########################
+def print_and_reduce_path():
+    current_path = os.popen("pwd").read().strip()
+    print("Current Path:", current_path)
 
+    printed_paths = set()
+
+    while os.path.dirname(current_path) != current_path and len(printed_paths) < 2:
+        new_path = os.path.dirname(current_path)
+        if new_path != current_path and new_path not in printed_paths:
+            printed_paths.add(new_path)
+        current_path = new_path
+
+    if len(printed_paths) == 2:
+        sorted_paths = sorted(printed_paths, key=len, reverse=True)
+        for path in sorted_paths:
+            os.system(f"sudo chmod 755 {path}")
+            os.system(f"sudo chown -R www-data:www-data {path}")
+            print(f"Done chmod/chown! >>> {path}")
+            print("Reduced Path:", path)
+
+if __name__ == "__main__":
+    print_and_reduce_path()
+    
 # Restart Nginx
 subprocess.run("sudo systemctl restart nginx", shell=True, check=True)
 
