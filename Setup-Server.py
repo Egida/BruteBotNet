@@ -76,21 +76,7 @@ with open('/etc/nginx/sites-available/default', 'w') as file:
 
 print("Nginx configuration has been saved.")
 
-def print_and_reduce_path():
-    current_path = os.popen("pwd").read().strip()
-
-    while os.path.dirname(current_path) != current_path:
-        current_path = os.path.dirname(current_path)
-        if os.path.dirname(current_path) != current_path:
-            os.system(f"sudo chmod 755 {current_path}")
-            os.system(f"sudo chown -R www-data:www-data {current_path}")
-            os.system(f"sudo chmod 755 {os.getcwd()}")
-            os.system(f"sudo chown -R www-data:www-data {os.getcwd()}")
-            print(f"Done chmod/chown! >>> {os.getcwd()}")
-            print(f"Done chmod/chown! >>> {current_path}")
-
-if __name__ == "__main__":
-    print_and_reduce_path()
+########################
 
 # Restart Nginx
 subprocess.run("sudo systemctl restart nginx", shell=True, check=True)
