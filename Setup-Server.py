@@ -97,6 +97,7 @@ for i in range(len(path_parts), 0, -1):
 # Restart Nginx
 subprocess.run("sudo systemctl restart nginx", shell=True, check=True)
 
+
 # Clone figlet fonts
 figlet_fonts_path = "/root/.local/share/fonts/figlet-fonts/"
 os.makedirs(figlet_fonts_path, exist_ok=True)
