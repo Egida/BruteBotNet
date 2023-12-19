@@ -9,8 +9,8 @@ if os.geteuid() != 0:
     sys.exit(1)
 
 os.system("sudo systemctl start tor; service tor start")
-os.system("systemctl start nginx ; service mginx start")
-os.system("systemctl start nginx-ui ; service mginx-ui start")
+os.system("systemctl start nginx ; service nginx start")
+os.system("systemctl start nginx-ui ; service nginx-ui start")
 time.sleep(0.5)
 os.system("clear")
 os.system("figlet -c -f ~/.local/share/fonts/figlet-fonts/3d.flf Setup. | lolcat")
